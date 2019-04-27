@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PoisonLogic.Village.Buildings
+namespace Village.Buildings
 {
     public class BaseBuilding
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PoisonLogic.Village.Core
+namespace Village.Core
 {
     public class ModifyerHandler
     {
@@ -17,6 +17,20 @@ namespace PoisonLogic.Village.Core
         {
             _activeMods = new List<Modifyer>();
             _holder = holder;
+        }
+
+        public float TryApplyMods(float value, IEnumerable<string> tags)
+        {
+            var addMod = 0f;
+            var multMod = 0f;
+            foreach(var mod in _activeMods)
+                if(DoesModApply(mod, tags))
+                {
+                    addMod += mod.AddValue;
+                    multMod += mod.MultValue;
+                }
+
+            return (value + addMod) * multMod;
         }
 
         public bool TryAddMod(Modifyer mod)

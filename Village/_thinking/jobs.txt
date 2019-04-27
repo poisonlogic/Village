@@ -1,0 +1,20 @@
+﻿
+
+
+Examples:
+
+	Miner:	10 workers
+			produces ever hour
+			porduction based off skill and number of workers
+
+	Theater:12 workers
+			Xconstant productionX
+			Modifies quality of building
+			production based off 
+
+
+
+Real question: 
+			Constant production of resources with net gain at end of month (Stelaris, Tropico)
+													or
+			Individual cyles with resources gathered irregularly and per producer (Fallout Shelter, They are billions)			

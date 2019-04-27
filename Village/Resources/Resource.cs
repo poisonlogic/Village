@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Village.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PoisonLogic.Village.Resources
+namespace Village.Resources
 {
     public class Resource
     {

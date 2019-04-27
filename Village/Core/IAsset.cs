@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PoisonLogic.Village.Core
+namespace Village.Core
 {
-    public interface IModifyerHandlerHolder
+    public interface IAsset
     {
+        bool Instanceable { get; }
+        string AssetName { get; }
         IEnumerable<string> Tags { get; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using PoisonLogic.Village.Core;
-using PoisonLogic.Village.Resources;
+﻿using Village.Core;
+using Village.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PoisonLogic.Village.Buildings
+namespace Village.Buildings
 {
-    public class ProducerBuilding : BaseBuilding, IProducers, IModifyerHandlerHolder
+    public class ProducerBuilding : BaseBuilding, IProducer, IModifyerHandlerHolder
     {
         private ModifyerHandler ModifyerHandler { get; set; }
         private Dictionary<string, int> _cachedModResources { get; set; }
@@ -15,6 +15,8 @@ namespace PoisonLogic.Village.Buildings
         public Dictionary<string, int> RawProducedResources { get; private set; }
 
         public Dictionary<string, int> ModProducedResources => throw new NotImplementedException();
+
+        public IEnumerable<string> AllProducedResources => throw new NotImplementedException();
 
         public ModifyerHandler GetModHandler()
         {

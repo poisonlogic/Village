@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PoisonLogic.Village.Resources
+namespace Village.Core
 {
-    public class ResourceManager
+    public enum AssetTypes
     {
+        U
     }
 }
