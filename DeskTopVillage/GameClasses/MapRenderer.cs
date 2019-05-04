@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Village.Map.MapStructures;
 
 namespace DeskTopVillage.GameClasses
 {
@@ -19,7 +20,7 @@ namespace DeskTopVillage.GameClasses
 
         public static decimal Zoom = 1;
         public static VillageMap Map;
-
+        public static MapStructManager MapStructManager;
 
         private static Dictionary<Tile, Texture2D> _tileGraphics;
         private static Texture2D defaultGraphic;
@@ -35,6 +36,16 @@ namespace DeskTopVillage.GameClasses
             Map = map;
             CurrentGame = game;
             _tileGraphics = new Dictionary<Tile, Texture2D>();
+
+            MapStructManager = new MapStructManager(Map);
+            var defs = Village.Core.Loader.DefLoader.LoadDefs<MapStructDef>("C:/temp");
+            var mapStruc = new BaseMapStructInstance(defs.First(), 3, 3);
+
+            MapStructManager.TryAddStructure(mapStruc);
+
+            MapStructManager.TryAddStructure(new BaseMapStructInstance(defs.Last(), 8, 3));
+
+
             foreach (var tile in Map.Tiles)
             {
                 if (defaultGraphic == null)
@@ -94,10 +105,34 @@ namespace DeskTopVillage.GameClasses
                 var coor = new Vector2(tile.Key.X * Scaled_Width + xOffset, tile.Key.Y * Scaled_Height + yOffset);
                 var dest = new Rectangle((int)coor.X, (int)coor.Y, Scaled_Width, Scaled_Height);
                 var rect = tile.Value;
-                spriteBatch.Draw(rect, dest, Color.White);;
+
+                var color = Color.Wheat;
+
+
+
+                if (MapStructManager.StructureAt(tile.Key.X, tile.Key.Y) != null)
+                {
+                    if (wasLast > 0)
+                        color = Color.Orange;
+                    else
+                        color = Color.Red;
+                }
+
+                spriteBatch.Draw(rect, dest, color);;
                 spriteBatch.DrawString(SpriteFont, string.Format("({0},{1})", tile.Key.X, tile.Key.Y), coor + new Vector2(10,10), Color.Black);
+
+                if(DebugTool.CurrentX == tile.Key.X && DebugTool.CurrentY == tile.Key.Y)
+                {
+                    var text = DebugTool.createCircleText(Tile_Width / 2, graphics.GraphicsDevice);
+                    spriteBatch.Draw(text, dest, Color.Gray);
+                }
             }
+            wasLast++;
+            if (wasLast > 100)
+                wasLast = -100;
             spriteBatch.End();
         }
+
+        public static int wasLast;
     }
 }

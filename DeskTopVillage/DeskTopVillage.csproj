@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="GameClasses\DebugTool.cs" />
     <Compile Include="GameClasses\InputController.cs" />
     <Compile Include="GameClasses\MapRenderer.cs" />
     <Compile Include="Program.cs" />

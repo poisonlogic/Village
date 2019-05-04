@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Village.Core;
 
-namespace Village.Social
+namespace Village.Social.Jobs
 {
     public enum JobType
     {
@@ -15,7 +15,7 @@ namespace Village.Social
         Single = 2
     }
 
-    public class Job
+    public class JobDef
     {
         public string JobName { get; set; }
         public PayLevel PayLevel { get; set; }

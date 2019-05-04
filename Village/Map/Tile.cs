@@ -10,7 +10,6 @@ namespace Village.Map
         public int Y { get; }
         public int Id { get; }
         public VillageMap Map { get; }
-        public IMapStructure MapStructure { get; }
 
         public Tile(int index, VillageMap map)
         {

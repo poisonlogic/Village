@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Village.Core;
 using Village.Resources;
 using Village.Social;
+using Village.Social.Jobs;
 
 namespace Village.Buildings
 {
-    public class Mines_TEMPLATE : IResourceUser, IJobProvider
+    public class Mines_TEMPLATE : IResourceUser
     {
         public string Name { get; private set; }
         public Guid InstanceId { get; private set; }
@@ -21,11 +22,20 @@ namespace Village.Buildings
 
         public bool HasOpenJobs { get; }
         public List<Villager> Workers { get; }
-        public IEnumerable<Job> AllPossibleJobs { get; }
+        public IEnumerable<JobDef> AllPossibleJobs { get; }
 
-        public List<IActiveJob> ActiveJobs { get; }
+        public List<IJobInstance> ActiveJobs { get; }
 
+        //IEnumerable<Villager> IJobProvider.Workers => throw new NotImplementedException();
 
+        public IEnumerable<Villager> FreeWorkers => throw new NotImplementedException();
+
+        public bool HasOpenWorkerSlot => throw new NotImplementedException();
+
+        public IEnumerable<JobDef> AllJobDrafts => throw new NotImplementedException();
+
+        //IEnumerable<IActiveJob> IJobProvider.ActiveJobs => throw new NotImplementedException();
+        
 
         public List<ResourceRequest> GetAllActiveRequest()
         {
@@ -38,7 +48,7 @@ namespace Village.Buildings
             Workers = new List<Villager>();
             AllPossibleJobs = LoadJobs();
 
-            ActiveJobs = new List<IActiveJob>();
+            ActiveJobs = new List<IJobInstance>();
         }
 
         public void DoProductionCycle()
@@ -46,17 +56,42 @@ namespace Village.Buildings
 
         }
 
-        public List<Job> LoadJobs()
+        public List<JobDef> LoadJobs()
         {
-            var miner = new Job
+            var miner = new JobDef
             {
                 JobName = "Miner",
                 PayLevel = PayLevel.Poor
             };
-            return new List<Job>();
+            return new List<JobDef>();
         }
 
-        public IEnumerable<Job> GetOpenJobs()
+        public IEnumerable<JobDef> GetOpenJobs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryAddWorker(Villager worker)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryRemoveWorker(Villager worker)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TryStartAllJobs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TryCancelAllJobs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AnyJobsFinished()
         {
             throw new NotImplementedException();
         }

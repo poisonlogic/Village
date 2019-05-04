@@ -22,7 +22,16 @@ namespace DeskTopVillage.GameClasses
                 MapRenderer.TryScroll(0, -10);
             if (state.IsKeyDown(Keys.D))
                 MapRenderer.TryScroll(-10, 0);
-            
+
+            if (state.IsKeyDown(Keys.Right))
+                DebugTool.CurrentX++;
+            if (state.IsKeyDown(Keys.Left))
+                DebugTool.CurrentX--;
+            if (state.IsKeyDown(Keys.Up))
+                DebugTool.CurrentY++;
+            if (state.IsKeyDown(Keys.Down))
+                DebugTool.CurrentY--;
+
         }
 
         public static void HandleMouseState()

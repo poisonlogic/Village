@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Village.Map.MapStructures;
 
 namespace Village.Map
 {
-    public class VillageMap
+    public class VillageMap : IMapStructUser
     {
         public Guid InstanceId { get; }
         public string Label { get; }
@@ -13,6 +14,8 @@ namespace Village.Map
         public int Width { get; }
         public int Height { get; }
         public IEnumerable<Tile> Tiles { get { return _tiles; } }
+
+        public IEnumerable<Tile> AllTiles => throw new NotImplementedException();
 
         private List<Tile> _tiles;
 
@@ -32,6 +35,16 @@ namespace Village.Map
         public bool OnMap(int x, int y)
         {
             return (x < Width && x >= 0) && (y < Height && y >= 0);
+        }
+
+        public Tile GetTile(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsOpenToMapStructure(int x, int y)
+        {
+            return true;
         }
     }
 }

@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Buildings\BaseBuilding.cs" />
     <Compile Include="Buildings\IBuilding.cs" />
+    <Compile Include="Core\Loader\DefLoader.cs" />
     <Compile Include="Core\SimpleTime.cs" />
     <Compile Include="Buildings\Mines_TEMPLATE.cs" />
     <Compile Include="Buildings\ProducerBuilding.cs" />
@@ -54,7 +58,11 @@
     <Compile Include="Core\IModifyerHandlerHolder.cs" />
     <Compile Include="Core\Modifyer.cs" />
     <Compile Include="Core\ModifyerHandler.cs" />
-    <Compile Include="Map\IMapStructure.cs" />
+    <Compile Include="Map\MapStructures\BaseMapStructInstance.cs" />
+    <Compile Include="Map\MapStructures\IMapStructInstance.cs" />
+    <Compile Include="Map\MapStructures\IMapStructUser.cs" />
+    <Compile Include="Map\MapStructures\MapStructDef.cs" />
+    <Compile Include="Map\MapStructures\MapStructManager.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\VillageMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,12 +75,31 @@
     <Compile Include="Resources\ResourceMaster.cs" />
     <Compile Include="Resources\ResourceRequest.cs" />
     <Compile Include="Social\BaseActiveJob.cs" />
-    <Compile Include="Social\IActiveJob.cs" />
-    <Compile Include="Social\IJobProvider.cs" />
-    <Compile Include="Social\Job.cs" />
-    <Compile Include="Social\JobCatalog.cs" />
+    <Compile Include="Social\Jobs\IJobInstance.cs" />
+    <Compile Include="Social\Jobs\IJobProvider.cs" />
+    <Compile Include="Social\Jobs\IJobWorker.cs" />
+    <Compile Include="Social\Jobs\IPlaceOfWork.cs" />
+    <Compile Include="Social\Jobs\JobDef.cs" />
+    <Compile Include="Social\Jobs\JobCatalog.cs" />
+    <Compile Include="Social\Jobs\BaseJob.cs" />
+    <Compile Include="Social\Jobs\BaseProductionJob.cs" />
+    <Compile Include="Social\Jobs\JobManager.cs" />
+    <Compile Include="Social\Population\BloodLines\BloodLineManager.cs" />
+    <Compile Include="Social\Population\BloodLines\BloodLineMember.cs" />
+    <Compile Include="Social\Population\BloodLines\BloodRelationInstance.cs" />
+    <Compile Include="Social\Population\Family.cs" />
+    <Compile Include="Social\Population\MatingSim.cs" />
+    <Compile Include="Social\Population\NameSet.cs" />
+    <Compile Include="Social\Population\PopulationManager.cs" />
     <Compile Include="Social\SocialHelper.cs" />
     <Compile Include="Social\Villager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Social\Population\Villagers\" />
+    <Folder Include="Social\Stats\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
