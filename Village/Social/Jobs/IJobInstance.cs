@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Village.Buildings;
 using Village.Core;
-using Village.Social.Jobs;
 
-namespace Village.Social
+namespace Village.Social.Jobs
 {
     public enum JobState
     {
@@ -20,15 +19,18 @@ namespace Village.Social
 
     public interface IJobInstance
     {
-        JobDef Job { get; }
+        string InstanceId { get; }
+        JobDef JobDef { get; }
         IEnumerable<IJobWorker> Workers { get; }
-        IPlaceOfWork Building { get; }
+        IJobProvider JobProvider{ get; }
         bool Disabled { get; }
         bool Running { get; }
         JobState JobState { get; }
         SimpleTime StartedAt();
         SimpleTime WillFinishAt();
+        int Priority { get; }
 
+        bool HasOpenPosition();
         bool TryAddWorker(IJobWorker worker);
         bool CanAddWorker(IJobWorker worker);
 

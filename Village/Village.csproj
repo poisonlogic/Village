@@ -78,11 +78,8 @@
     <Compile Include="Social\Jobs\IJobInstance.cs" />
     <Compile Include="Social\Jobs\IJobProvider.cs" />
     <Compile Include="Social\Jobs\IJobWorker.cs" />
-    <Compile Include="Social\Jobs\IPlaceOfWork.cs" />
     <Compile Include="Social\Jobs\JobDef.cs" />
-    <Compile Include="Social\Jobs\JobCatalog.cs" />
     <Compile Include="Social\Jobs\BaseJob.cs" />
-    <Compile Include="Social\Jobs\BaseProductionJob.cs" />
     <Compile Include="Social\Jobs\JobManager.cs" />
     <Compile Include="Social\Population\BloodLines\BloodLineManager.cs" />
     <Compile Include="Social\Population\BloodLines\BloodLineMember.cs" />
@@ -92,7 +89,7 @@
     <Compile Include="Social\Population\NameSet.cs" />
     <Compile Include="Social\Population\PopulationManager.cs" />
     <Compile Include="Social\SocialHelper.cs" />
-    <Compile Include="Social\Villager.cs" />
+    <Compile Include="Social\Population\Villager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Social\Population\Villagers\" />

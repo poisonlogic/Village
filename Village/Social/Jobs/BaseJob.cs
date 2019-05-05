@@ -13,12 +13,12 @@ namespace Village.Social.Jobs
         private List<IJobWorker> _workers;
 
         public string Name { get; private set; }
-        public Guid InstanceId { get; private set; }
+        public string InstanceId { get; private set; }
         public IEnumerable<IJobWorker> Workers { get { return _workers; } }
         public IEnumerable<string> Tags { get; }
-        public JobDef Job { get; private set; }
-        public IPlaceOfWork Building { get; private set; }
-
+        public JobDef JobDef { get; private set; }
+        public IJobProvider JobProvider{ get; private set; }
+        public int Priority { get; private set; }
         public bool Disabled { get; set; }
         public bool Running { get; private set; }
 
@@ -26,11 +26,11 @@ namespace Village.Social.Jobs
 
         private SimpleTime _startedAt;
 
-        public BaseJobInstance(JobDef JobDraft, IPlaceOfWork building)
+        public BaseJobInstance(JobDef JobDraft, IJobProvider jobProvider)
         {
             Name = JobDraft.JobName;
-            InstanceId = Guid.NewGuid();
-            Building = building;
+            InstanceId = Guid.NewGuid().ToString();
+            JobProvider = jobProvider;
             _workers = new List<IJobWorker>();
         }
 
@@ -94,6 +94,11 @@ namespace Village.Social.Jobs
         public virtual SimpleTime WillFinishAt()
         {
             return _startedAt + Job.TimeToComplete;
+        }
+
+        public bool HasOpenPosition()
+        {
+            throw new NotImplementedException();
         }
     }
 }

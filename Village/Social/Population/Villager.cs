@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Village.Buildings;
+using Village.Social.Jobs;
 
-namespace Village.Social
+namespace Village.Social.Population
 {
-    public class Villager
+    public class Villager : IJobWorker
     {
         public string Name { get; private set; }
         public Guid InstanceId { get; private set; }

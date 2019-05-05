@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Village.Social.Jobs;
 
-namespace Village.Social
+namespace Village.Social.Jobs
 {
     public interface IJobProvider
     {
@@ -13,17 +13,15 @@ namespace Village.Social
         Guid InstanceId { get; }
         IEnumerable<string> Tags { get; }
 
-        IEnumerable<Villager> Workers { get; }
-        IEnumerable<Villager> FreeWorkers { get; }
         bool HasOpenWorkerSlot { get; }
-        bool TryAddWorker(Villager worker);
-        bool TryRemoveWorker(Villager worker);
-
-
-        IEnumerable<JobDef> AllJobDrafts { get; }
-        IEnumerable<IJobInstance> ActiveJobs { get; }
+        bool TryAddWorker(IJobWorker worker);
+        bool TryRemoveWorker(IJobWorker worker);
+        
         void TryStartAllJobs();
         void TryCancelAllJobs();
         void AnyJobsFinished();
+
+        IEnumerable<string> GetCurrentJobsId();
+        void SetCurrentJobsId(IEnumerable<string> jobids);
     }
 }
