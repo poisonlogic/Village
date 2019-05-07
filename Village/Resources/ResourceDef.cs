@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Village.Resources
 {
-    public class Resource
+    public class ResourceDef
     {
         public string Name { get; set; }
         public string Label { get; set; }

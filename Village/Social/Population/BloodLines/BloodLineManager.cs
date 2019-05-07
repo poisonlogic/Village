@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Village.Social.Population.BloodLines
 {
-    public static class BloodLineManager
+    public class BloodLineManager
     {
-        private static Dictionary<string, List<BloodRelationInstance>> _knownRelations;
-        public static List<BloodRelationInstance> GetKnownRelations(BloodLineMember member)
-        {
-            if (_knownRelations == null)
-                _knownRelations = new Dictionary<string, List<BloodRelationInstance>>();
+        //private Dictionary<string, List<BloodRelationInstance>> _knownRelations;
+        //public List<BloodRelationInstance> GetKnownRelations(BloodLineMember member)
+        //{
+        //    if (_knownRelations == null)
+        //        _knownRelations = new Dictionary<string, List<BloodRelationInstance>>();
 
-            var key = member.Villager.InstanceId.ToString();
-            if (_knownRelations.ContainsKey(key))
-                return _knownRelations[key];
+        //    var key = member.Villager.InstanceId.ToString();
+        //    if (_knownRelations.ContainsKey(key))
+        //        return _knownRelations[key];
 
-            return null;
-        }
+        //    return null;
+        //}
 
         //public static void TryAddNewRelation(BloodRelationInstance instance)
         //{
@@ -120,9 +120,9 @@ namespace Village.Social.Population.BloodLines
             return false;
         }
 
-        public static BloodLineMember NewBloodlineMember(IEnumerable<BloodLineMember> parents, Villager villager)
+        public static BloodLineMember NewBloodlineMember(IEnumerable<BloodLineMember> parents, IPopInstance pop)
         {
-            var newMember = new BloodLineMember(villager);
+            var newMember = new BloodLineMember(pop);
             foreach (var parent in parents)
             {
                 newMember.AddParent(parent);

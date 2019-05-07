@@ -8,8 +8,8 @@ namespace Village.Social.Population.BloodLines
 {
     public class BloodLineMember
     {
-        public Villager Villager;
-        public string Name { get { return Villager.Name; } }
+        public IPopInstance PopInstance;
+        public string Name { get { return PopInstance.Label; } }
         private List<BloodLineMember> _parents;
         private List<BloodLineMember> _siblings;
         private List<BloodLineMember> _children;
@@ -18,9 +18,9 @@ namespace Village.Social.Population.BloodLines
         public IEnumerable<BloodLineMember> Siblings { get { return _siblings; } }
         public IEnumerable<BloodLineMember> Children { get { return _children; } }
         public IEnumerable<BloodLineMember> PastMates { get { return _pastMates; } }
-        public BloodLineMember(Villager villager)
+        public BloodLineMember(IPopInstance pop)
         {
-            this.Villager = villager;
+            this.PopInstance = pop;
             _parents = new List<BloodLineMember>();
             _children = new List<BloodLineMember>();
             _siblings = new List<BloodLineMember>();

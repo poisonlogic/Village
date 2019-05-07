@@ -5,11 +5,9 @@ using System.Text;
 
 namespace Village.Resources
 {
-    public class ResourceMaster
+    public class ResourceManager
     {
-        private List<IProducer> _producers;
-        private List<IConsumer> _consumers;
-
+        private Dictionary<string, IResourceUser> _resourceUsers;
         private Dictionary<string, ResourceDetails> _resources;
 
         private List<ResourceRequest> _pendingResourceRequests;
@@ -19,17 +17,13 @@ namespace Village.Resources
             public string ResourceName;
             public int StoredValue;
             public int MaxStoreValue;
-            public Resource Resource { get { return ResourceCatalog.All[ResourceName]; } }
+            public ResourceDef Resource { get { return ResourceCatalog.All[ResourceName]; } }
         }
-
-        public IEnumerable<IProducer> Producers { get { return _producers; } }
-        public IEnumerable<IConsumer> Consumers { get { return _consumers; } }
-
-        public ResourceMaster()
+        
+        public ResourceManager()
         {
-            _producers = new List<IProducer>();
-            _consumers = new List<IConsumer>();
             _resources = new Dictionary<string, ResourceDetails>();
+            _resourceUsers = new Dictionary<string, IResourceUser>();
         }
 
         public bool TryRegisterNewResource(string resName)
@@ -47,58 +41,40 @@ namespace Village.Resources
             return true;
         }
 
-        public bool TryRegiseringProducer(IProducer producer, bool throwExceptions = false)
+        public bool TryRegiseringUser(IResourceUser user, bool throwExceptions = false)
         {
-            if (_producers.Contains(producer))
+            if (_resourceUsers.ContainsKey(user.InstanceId))
             {
                 if (throwExceptions) throw new Exception("Attempted to register dupicate producers");
                 return false;
             }
 
-            var unregisteredResources = producer.AllProducedResources.Where(x => !_resources.ContainsKey(x));
+            var unregisteredResources = user.AllResourceIds.Where(x => !_resources.ContainsKey(x));
             if (unregisteredResources.Any())
                 foreach (var unres in unregisteredResources)
                     TryRegisterNewResource(unres);
             
-            _producers.Add(producer);
+            _resourceUsers.Add(user.InstanceId, user);
 
             return true;
         }
-
-        public bool TryRegiseringConsumer(IConsumer consumer, bool throwExceptions = false)
-        {
-            if (_consumers.Contains(consumer))
-            {
-                if (throwExceptions) throw new Exception("Attempted to register dupicate consumers");
-                return false;
-            }
-
-            var unregisteredResources = consumer.AllConsumedResources.Where(x => !_resources.ContainsKey(x));
-            if (unregisteredResources.Any())
-                foreach (var unres in unregisteredResources)
-                    TryRegisterNewResource(unres);
-
-            _consumers.Add(consumer);
-
-            return true;
-        }
-
+        
         public bool CanFullFillRequest(ResourceRequest request)
         {
-            switch(request.Type)
-            {
-                case ResourceRequestType.Produced:
-                    foreach (var res in request.Exchanges)
-                        if (_resources[res.Key].StoredValue + res.Value > _resources[res.Key].MaxStoreValue)
-                            return false;
-                    break;
+            //switch(request.Type)
+            //{
+            //    case ResourceRequestType.Produced:
+            //        foreach (var res in request.Exchanges)
+            //            if (_resources[res.Key].StoredValue + res.Value > _resources[res.Key].MaxStoreValue)
+            //                return false;
+            //        break;
 
-                case ResourceRequestType.Consume:
-                    foreach (var res in request.Exchanges)
-                        if (_resources[res.Key].StoredValue < res.Value)
-                            return false;
-                    break;
-            }
+            //    case ResourceRequestType.Consume:
+            //        foreach (var res in request.Exchanges)
+            //            if (_resources[res.Key].StoredValue < res.Value)
+            //                return false;
+            //        break;
+            //}
             return true;
         }
 

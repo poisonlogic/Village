@@ -24,7 +24,6 @@ namespace Village.Social.Jobs
         IEnumerable<IJobWorker> Workers { get; }
         IJobProvider JobProvider{ get; }
         bool Disabled { get; }
-        bool Running { get; }
         JobState JobState { get; }
         SimpleTime StartedAt();
         SimpleTime WillFinishAt();

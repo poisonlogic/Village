@@ -12,8 +12,10 @@ namespace Village.Social.Jobs
         string Label { get; }
         IEnumerable<string> Tags { get; }
 
-        string GetCurrentJobId();
-        void SetCurrentJobId(string jobid);
-        EducationLevel EducationLevel { get; }
+        bool HasJob { get; }
+        string JobId { get; }
+        bool TryTransferToNewJob(IJobInstance job);
+        void FireFromJob();
+
     }
 }

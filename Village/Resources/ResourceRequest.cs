@@ -6,18 +6,10 @@ using System.Threading.Tasks;
 
 namespace Village.Resources
 {
-    public enum ResourceRequestType
-    {
-        UNSET = -1,
-        Produced = 0,
-        Consume = 1
-    }
-
     public class ResourceRequest
     {
         public Dictionary<string, int> Exchanges;
-        public Guid RequesterId;
-        public ResourceRequestType Type;
+        public string RequesterId;
         public int Priority;
     }
 }

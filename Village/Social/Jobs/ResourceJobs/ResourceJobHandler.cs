@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Village.Social.Population
+namespace Village.Social.Jobs.ResourceJobs
 {
-
-   
+    public static class ResourceJobHandler 
+    {
+    }
 }

@@ -41,7 +41,7 @@ namespace Village.Social.Population
                             PrintPop(Population.OrderBy(x => Guid.NewGuid()).First());
                         else
                         {
-                            var pop = Population.Where(x => x.Villager.Name.ToLower() == tokens[1]).FirstOrDefault();
+                            var pop = Population.Where(x => x.PopInstance.Label.ToLower() == tokens[1]).FirstOrDefault();
                             PrintPop(pop);
                         }
                         break;
@@ -51,21 +51,21 @@ namespace Village.Social.Population
                         var b = memberFromName(tokens[2]);
                         if(a == null || b == null)
                             { Console.WriteLine("one or more members count not be found"); break; }
-                        var newKid = DoMateing(a, b);
+                        var newKid = new VillagerPop("NAME", new List<string> { "tag" });
                         Console.WriteLine("----------------------------------------------------");
                         Console.WriteLine(string.Format("{0} and {1} gave birth to {2}", a.Name, b.Name, newKid.Name));
                         Console.WriteLine("----------------------------------------------------");
                         break;
 
                     case "chain":
-                        var pop1 = Population.Where(x => x.Villager.Name.ToLower() == tokens[1]).FirstOrDefault();
-                        var pop2 = Population.Where(x => x.Villager.Name.ToLower() == tokens[2]).FirstOrDefault();
+                        var pop1 = Population.Where(x => x.PopInstance.Label.ToLower() == tokens[1]).FirstOrDefault();
+                        var pop2 = Population.Where(x => x.PopInstance.Label.ToLower() == tokens[2]).FirstOrDefault();
                         if (pop1 == null || pop2 == null)
                             Console.WriteLine("One or both pops are null");
                         else
                         {
                             var relation = BloodLineManager.DeterminRelation(pop1, pop2);
-                            Console.WriteLine(string.Format("Chain from {0} to {1}", pop1.Villager.Name, pop2.Villager.Name));
+                            Console.WriteLine(string.Format("Chain from {0} to {1}", pop1.PopInstance.Label, pop2.PopInstance.Label));
                             foreach (var rel in relation.RelationTypeChain)
                                 Console.Write(rel.ToString() + " -> ");
                             Console.WriteLine();
@@ -73,8 +73,8 @@ namespace Village.Social.Population
                         break;
 
                     case "pair":
-                        var popa = Population.Where(x => x.Villager.Name.ToLower() == tokens[1]).FirstOrDefault();
-                        var popb = Population.Where(x => x.Villager.Name.ToLower() == tokens[2]).FirstOrDefault();
+                        var popa = Population.Where(x => x.PopInstance.Label.ToLower() == tokens[1]).FirstOrDefault();
+                        var popb = Population.Where(x => x.PopInstance.Label.ToLower() == tokens[2]).FirstOrDefault();
                         if (popa == null || popb == null)
                             Console.WriteLine("One or both pops are null");
                         else
@@ -115,10 +115,10 @@ namespace Village.Social.Population
             }
 
             Console.WriteLine("---------------------------------------");
-            Console.WriteLine("Name: " + mem.Villager.Name);
-            Console.WriteLine("Parents: " + string.Join(", ", mem.Parents.Select(x => x.Villager.Name)));
-            Console.WriteLine("Siblings: " + string.Join(", ", mem.Siblings.Select(x => x.Villager.Name)));
-            Console.WriteLine("Children: " + string.Join(", ", mem.Children.Select(x => x.Villager.Name)));
+            Console.WriteLine("Name: " + mem.PopInstance.Label);
+            Console.WriteLine("Parents: " + string.Join(", ", mem.Parents.Select(x => x.PopInstance.Label)));
+            Console.WriteLine("Siblings: " + string.Join(", ", mem.Siblings.Select(x => x.PopInstance.Label)));
+            Console.WriteLine("Children: " + string.Join(", ", mem.Children.Select(x => x.PopInstance.Label)));
             Console.WriteLine("---------------------------------------");
         }
 
@@ -138,7 +138,7 @@ namespace Village.Social.Population
                 return;
             }
             Console.WriteLine("---------------------------------------");
-            Console.WriteLine(string.Format("Subject: {0}, Target: {1}", a.Villager.Name, b.Villager.Name));
+            Console.WriteLine(string.Format("Subject: {0}, Target: {1}", a.PopInstance.Label, b.PopInstance.Label));
             Console.WriteLine(string.Format("RelationChain: {0}", string.Join(" => ", relation.RelationTypeChain.Select(x => x.ToString()))));
             Console.WriteLine(string.Format("Term: {0}", relation.GetTerm()));
             if(relation.RelationDef != null)
@@ -151,7 +151,7 @@ namespace Village.Social.Population
         {
             for(int i = 0; i < count; count--)
             {
-                var villager = RandomVillager();
+                var villager = PopulationManager.RandomVillager() as VillagerPop;
                 var newMember = new BloodLineMember(villager);
                 Population.Add(newMember);
             }
@@ -192,25 +192,6 @@ namespace Village.Social.Population
         public static bool CanMate(BloodLineMember a, BloodLineMember b)
         {
             return !BloodLineManager.HasRelation(a, b);
-        }
-
-        public static BloodLineMember DoMateing(BloodLineMember a, BloodLineMember b)
-        {
-            var villager = RandomVillager();
-            var newGuy = BloodLineManager.NewBloodlineMember(new List<BloodLineMember> { a, b }, villager);
-            Population.Add(newGuy);
-            return newGuy;
-        }
-
-        public static Villager RandomVillager()
-        {
-            var ran = new Random();
-            var isBoy = (ran.Next(2) > 0);
-            if (isBoy)
-                return new Villager(NameSet.RandomName(isBoy), new List<string> { "male" });
-            else
-                return new Villager(NameSet.RandomName(isBoy), new List<string> { "female" });
-
         }
     }
 }

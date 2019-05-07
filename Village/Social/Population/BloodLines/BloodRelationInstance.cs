@@ -51,7 +51,7 @@ namespace Village.Social.Population.BloodLines
             //          that is not in the village's tags
             var match = RelationDef.TermsTags.Where(termTag =>
                 !termTag.Value.Where(tag =>
-                    !Subject.Villager.Tags.Contains(tag)).Any());
+                    !Subject.PopInstance.Tags.Contains(tag)).Any());
             var term = default(string);
             if (match.Any())
                 term = match.First().Key ?? "";

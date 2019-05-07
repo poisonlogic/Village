@@ -45,11 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\BaseBuilding.cs" />
+    <Compile Include="Buildings\BaseJobBuilding.cs" />
     <Compile Include="Buildings\IBuilding.cs" />
     <Compile Include="Core\Loader\DefLoader.cs" />
     <Compile Include="Core\SimpleTime.cs" />
-    <Compile Include="Buildings\Mines_TEMPLATE.cs" />
     <Compile Include="Buildings\ProducerBuilding.cs" />
     <Compile Include="Core\AssetCatalog.cs" />
     <Compile Include="Core\AssetTypes.cs" />
@@ -66,30 +65,33 @@
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\VillageMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\IConsumer.cs" />
-    <Compile Include="Resources\IProducer.cs" />
     <Compile Include="Resources\IResourceUser.cs" />
-    <Compile Include="Resources\Resource.cs" />
+    <Compile Include="Resources\ResourceDef.cs" />
     <Compile Include="Resources\ResourceCatalog.cs" />
     <Compile Include="Resources\ResourceInstance.cs" />
-    <Compile Include="Resources\ResourceMaster.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Resources\ResourceRequest.cs" />
-    <Compile Include="Social\BaseActiveJob.cs" />
     <Compile Include="Social\Jobs\IJobInstance.cs" />
     <Compile Include="Social\Jobs\IJobProvider.cs" />
     <Compile Include="Social\Jobs\IJobWorker.cs" />
     <Compile Include="Social\Jobs\JobDef.cs" />
-    <Compile Include="Social\Jobs\BaseJob.cs" />
+    <Compile Include="Social\Jobs\BaseJobInstance.cs" />
     <Compile Include="Social\Jobs\JobManager.cs" />
+    <Compile Include="Social\Jobs\ResourceJobs\BaseResourceJobInstace.cs" />
+    <Compile Include="Social\Jobs\ResourceJobs\IResourceJobInstance.cs" />
+    <Compile Include="Social\Jobs\ResourceJobs\ResourceJobDef.cs" />
+    <Compile Include="Social\Jobs\ResourceJobs\ResourceJobHandler.cs" />
     <Compile Include="Social\Population\BloodLines\BloodLineManager.cs" />
     <Compile Include="Social\Population\BloodLines\BloodLineMember.cs" />
     <Compile Include="Social\Population\BloodLines\BloodRelationInstance.cs" />
     <Compile Include="Social\Population\Family.cs" />
+    <Compile Include="Social\Population\IPopInstance.cs" />
     <Compile Include="Social\Population\MatingSim.cs" />
     <Compile Include="Social\Population\NameSet.cs" />
+    <Compile Include="Social\Population\PopDef.cs" />
     <Compile Include="Social\Population\PopulationManager.cs" />
     <Compile Include="Social\SocialHelper.cs" />
-    <Compile Include="Social\Population\Villager.cs" />
+    <Compile Include="Social\Population\VillagerPop.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Social\Population\Villagers\" />

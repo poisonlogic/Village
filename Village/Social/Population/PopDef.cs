@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Village.Social.Population
 {
-
-   
+    class PopDef
+    {
+    }
 }

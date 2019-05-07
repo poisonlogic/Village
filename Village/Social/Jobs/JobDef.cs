@@ -18,14 +18,13 @@ namespace Village.Social.Jobs
     public class JobDef
     {
         public string JobName { get; set; }
-        public PayLevel PayLevel { get; set; }
-        public int MaxWorkerCount { get; set; }
+        public IEnumerable<string> Tags { get; set; }
         public JobType JobType { get; set; }
-        public Dictionary<string, int> ConsumedResources { get; set; }
-        public Dictionary<string, int> ProducedResources { get; set; }
+        public int MaxWorkerCount { get; set; }
+        public PayLevel PayLevel { get; set; }
         public SimpleTime TimeToComplete { get; set; }
-        public EducationLevel RequiredEducationLevel { get; set; }
-        public PayLevel BasePayLevel { get; set; }
+        public IEnumerable<string> RequiredTags { get; set; }
+        public IEnumerable<string> ForbidenTags { get; set; }
         
     }
 }

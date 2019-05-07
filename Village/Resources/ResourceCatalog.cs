@@ -7,12 +7,12 @@ namespace Village.Resources
 {
     public static class ResourceCatalog 
     {
-        public static Dictionary<string, Resource> All;
+        public static Dictionary<string, ResourceDef> All;
 
         public static void Init()
         {
-            All = new Dictionary<string, Resource>();
-            All.Add("Iorn", new Resource
+            All = new Dictionary<string, ResourceDef>();
+            All.Add("Iorn", new ResourceDef
             {
                 Name = "Iron",
                 Tags = new List<string> { "Metal" },

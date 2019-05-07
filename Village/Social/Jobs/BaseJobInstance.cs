@@ -26,9 +26,10 @@ namespace Village.Social.Jobs
 
         private SimpleTime _startedAt;
 
-        public BaseJobInstance(JobDef JobDraft, IJobProvider jobProvider)
+        public BaseJobInstance(string jobDef, IJobProvider jobProvider)
         {
-            Name = JobDraft.JobName;
+            JobDef = new JobDef();
+            Name = JobDef.JobName;
             InstanceId = Guid.NewGuid().ToString();
             JobProvider = jobProvider;
             _workers = new List<IJobWorker>();
@@ -46,9 +47,7 @@ namespace Village.Social.Jobs
 
         public virtual bool CanAddWorker(IJobWorker worker)
         {
-            if (_workers.Count() >= Job.MaxWorkerCount)
-                return false;
-            if (worker.EducationLevel < Job.RequiredEducationLevel)
+            if (_workers.Count() >= JobDef.MaxWorkerCount)
                 return false;
             return true;
         }
@@ -81,10 +80,7 @@ namespace Village.Social.Jobs
             return true;
         }
 
-        public virtual bool TryFinsh()
-        {
-            return true;
-        }
+        public abstract bool TryFinsh();
 
         public virtual SimpleTime StartedAt()
         {
@@ -93,7 +89,7 @@ namespace Village.Social.Jobs
 
         public virtual SimpleTime WillFinishAt()
         {
-            return _startedAt + Job.TimeToComplete;
+            return _startedAt + JobDef.TimeToComplete;
         }
 
         public bool HasOpenPosition()
