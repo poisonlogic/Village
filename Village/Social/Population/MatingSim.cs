@@ -149,12 +149,12 @@ namespace Village.Social.Population
 
         public static void AddNewPopulation(int count)
         {
-            for(int i = 0; i < count; count--)
-            {
-                var villager = PopulationManager.RandomVillager() as VillagerPop;
-                var newMember = new BloodLineMember(villager);
-                Population.Add(newMember);
-            }
+            //for(int i = 0; i < count; count--)
+            //{
+            //    var villager = PopulationManager.RandomVillager() as VillagerPop;
+            //    var newMember = new BloodLineMember(villager);
+            //    Population.Add(newMember);
+            //}
         }
 
         public static void RandomMatingPair(out BloodLineMember a, out BloodLineMember b)

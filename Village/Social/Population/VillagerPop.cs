@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Village.Buildings;
+using Village.Core.DIMCUP;
 using Village.Social.Jobs;
 
 namespace Village.Social.Population
 {
-    public class VillagerPop : IPopInstance, IJobWorker
+    public class VillagerPop //: IPopInstance, IJobWorker
     {
         public string InstanceId { get; private set; }
         public string Name { get; private set; }
         public string Label { get { return this.Name; } }
+
+
+
         public EducationLevel EducationLevel { get; private set; }
         public PayLevel PayLevel { get; private set; }
         public IBuilding PlaceOfEmployment { get; private set; }
@@ -27,14 +31,21 @@ namespace Village.Social.Population
             this.Tags = Tags;
         }
 
-        private string _currentJobId;
-        bool IJobWorker.HasJob { get { return _currentJobId != null; } }
-        string IJobWorker.JobId => _currentJobId;
-        bool IJobWorker.TryTransferToNewJob(IJobInstance job)
-        {
-            _currentJobId = job.InstanceId;
-            return true;
-        }
-        void IJobWorker.FireFromJob() { _currentJobId = null; }
+        //private string _currentJobId;
+        //bool IJobWorker.HasJob { get { return _currentJobId != null; } }
+        //string IJobWorker.JobId => _currentJobId;
+
+        //public string DefName => throw new NotImplementedException();
+
+        //public IDimcupProvider<BaseDimcupDef> InstanceProvider => throw new NotImplementedException();
+
+        //public IEnumerable<IDimcupUser<BaseDimcupDef>> InstanceUsers => throw new NotImplementedException();
+
+        //bool IJobWorker.TryTransferToNewJob(IJobInstance job)
+        //{
+        //    _currentJobId = job.InstanceId;
+        //    return true;
+        //}
+        //void IJobWorker.FireFromJob() { _currentJobId = null; }
     }
 }

@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
-    public interface IJobWorker
+    public interface IJobWorker<TDef> : IDimcupUser<TDef> where TDef : JobDef
     {
-        string InstanceId { get; }
         string Label { get; }
-        IEnumerable<string> Tags { get; }
 
         bool HasJob { get; }
         string JobId { get; }
-        bool TryTransferToNewJob(IJobInstance job);
+        bool TryTransferToNewJob(IJobInstance<TDef> job);
         void FireFromJob();
 
     }

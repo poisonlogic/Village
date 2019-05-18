@@ -3,39 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
-    public class JobManager
+    public class JobManager<TDef> : BaseDimcupManager<TDef> where TDef : JobDef
     {
-        public static JobManager Instance;
+        public static JobManager<TDef> Instance;
 
-        private Dictionary<string, IJobInstance> _jobs;
-        private Dictionary<string, IJobWorker> _registeredWorkers;
-        private Dictionary<string, IJobProvider> _registeredJobProviders;
+        private Dictionary<string, IJobInstance<TDef>> _jobs;
+        private Dictionary<string, IJobWorker<TDef>> _registeredWorkers;
+        private Dictionary<string, IJobProvider<TDef>> _registeredJobProviders;
 
-        public IEnumerable<IJobInstance> AllJobs { get { return _jobs.Select(x => x.Value); } }
-        public IEnumerable<IJobInstance> OpenJobs { get { return AllJobs.Where(x => x.HasOpenPosition()); } }
-        public IEnumerable<IJobWorker> AllWorkersOnJobs { get { return AllJobs.SelectMany(x => x.Workers); } }
+        public IEnumerable<IJobInstance<TDef>> AllJobs { get { return _jobs.Select(x => x.Value); } }
+        public IEnumerable<IJobInstance<TDef>> OpenJobs { get { return AllJobs.Where(x => x.HasOpenPosition()); } }
+        public IEnumerable<IJobWorker<TDef>> AllWorkersOnJobs { get { return AllJobs.SelectMany(x => x.Workers); } }
 
         public JobManager()
         {
             Instance = this;
-            _jobs = new Dictionary<string, IJobInstance>();
-            _registeredWorkers = new Dictionary<string, IJobWorker>();
-            _registeredJobProviders = new Dictionary<string, IJobProvider>();
+            _jobs = new Dictionary<string, IJobInstance<TDef>>();
+            _registeredWorkers = new Dictionary<string, IJobWorker<TDef>>();
+            _registeredJobProviders = new Dictionary<string, IJobProvider<TDef>>();
 
         }
 
-        public bool TryRegisterNewWorker(IJobWorker worker)
+        public bool TryRegisterNewWorker(IJobWorker<TDef> worker)
         {
+            if(!base.TryRegisterUser(worker))
+            {
+                return false;
+            }
             if (_registeredWorkers.ContainsKey(worker.InstanceId))
                 return false;
             _registeredWorkers.Add(worker.InstanceId, worker);
             return true;
         }
 
-        public bool TryRegisterJobProvider(IJobProvider jobProvider)
+        public bool TryRegisterJobProvider(IJobProvider<TDef> jobProvider)
         {
             if (_registeredJobProviders.ContainsKey(jobProvider.InstanceId))
                 return false;
@@ -44,14 +49,14 @@ namespace Village.Social.Jobs
 
         }
 
-        public IEnumerable<IJobInstance> FindOpenJobsFor(IJobWorker worker)
+        public IEnumerable<IJobInstance<TDef>> FindOpenJobsFor(IJobWorker<TDef> worker)
         {
             var options = OpenJobs.Where(x => x.CanAddWorker(worker));
 
             return options;
         }
 
-        public bool FindOpenJobForAndHire(IJobWorker worker)
+        public bool FindOpenJobForAndHire(IJobWorker<TDef> worker)
         {
             var options = FindOpenJobsFor(worker);
             if (!options.Any())
@@ -71,7 +76,7 @@ namespace Village.Social.Jobs
             return false;
         }
 
-        public IJobProvider GetJobProvider(IJobWorker worker)
+        public IJobProvider<TDef> GetJobProvider(IJobWorker<TDef> worker)
         {
             var jobInstanceId = worker.JobId;
             if(!_jobs.ContainsKey(jobInstanceId))
@@ -79,14 +84,14 @@ namespace Village.Social.Jobs
             return _jobs[jobInstanceId].JobProvider;
         }
 
-        public IJobInstance GetJob(string jobId)
+        public IJobInstance<TDef> GetJob(string jobId)
         {
             return _jobs[jobId];
         }
 
-        public IEnumerable<IJobWorker> GetWorker(IJobProvider jobProvider)
+        public IEnumerable<IJobWorker<TDef>> GetWorker(IJobProvider<TDef> jobProvider)
         {
-            var jobIds = jobProvider.GetCurrentJobsId();
+            var jobIds = new List<string>();
             foreach(var jobid in jobIds)
             {
                 if (!_jobs.ContainsKey(jobid))
@@ -105,12 +110,32 @@ namespace Village.Social.Jobs
             {
                 var job = jobPair.Value;
                 sb.AppendLine("------------------------------------------------------");
-                sb.AppendLine(string.Format("Job Name: {0} InstanceId: {1}", job.JobDef.JobName, job.InstanceId));
+                sb.AppendLine(string.Format("Job Name: {0} InstanceId: {1}", job.JobDef.DefName, job.InstanceId));
                 sb.AppendLine(string.Format("Possible Works: {0}, Current Workers: {1}", job.JobDef.MaxWorkerCount, job.Workers.Count()));
                 sb.AppendLine(string.Format("Workers: {0}", string.Join(", ", job.Workers.Select(x => x.Label))));
                 sb.AppendLine("------------------------------------------------------");
             }
             return sb.ToString();
+        }
+
+        public override bool TryTransferInstance(IDimcupInstance<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfInstanceChange(IDimcupInstance<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfUserChange(IDimcupUser<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfProviderChange(IDimcupProvider<TDef> instance)
+        {
+            throw new NotImplementedException();
         }
     }
 }

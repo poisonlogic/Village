@@ -36,16 +36,16 @@ namespace Village.Social.Population
 
 
 
-        public static IPopInstance RandomVillager()
-        {
-            var ran = new Random();
-            var isBoy = (ran.Next(2) > 0);
-            if (isBoy)
-                return new VillagerPop(NameSet.RandomName(isBoy), new List<string> { "male" });
-            else
-                return new VillagerPop(NameSet.RandomName(isBoy), new List<string> { "female" });
+        //public static IPopInstance RandomVillager()
+        //{
+        //    var ran = new Random();
+        //    var isBoy = (ran.Next(2) > 0);
+        //    if (isBoy)
+        //        return new VillagerPop(NameSet.RandomName(isBoy), new List<string> { "male" });
+        //    else
+        //        return new VillagerPop(NameSet.RandomName(isBoy), new List<string> { "female" });
 
-        }
+        //}
 
 
 
@@ -57,14 +57,14 @@ namespace Village.Social.Population
             {
                 var pop = popPair.Value;
                 sb.AppendLine(string.Format("Name: {0} InstanceId: {1}", pop.Label, pop.InstanceId));
-                if (pop is IJobWorker)
+                if (pop is IJobWorker<JobDef>)
                 {
-                    var workPop = pop as IJobWorker;
+                    var workPop = pop as IJobWorker<JobDef>;
                     if (workPop.JobId != null)
                     {
-                        var job = JobManager.Instance.GetJob(workPop.JobId);
-                        var pow = JobManager.Instance.GetJobProvider(workPop);
-                        sb.AppendLine(string.Format("Job: {0}, Works At: {1}", job.JobDef.JobName, pow.Name));
+                        var job = JobManager<JobDef>.Instance.GetJob(workPop.JobId);
+                        var pow = JobManager<JobDef>.Instance.GetJobProvider(workPop);
+                        sb.AppendLine(string.Format("Job: {0}, Works At: {1}", job.JobDef.DefName, pow.Label));
                     }
                 }
 

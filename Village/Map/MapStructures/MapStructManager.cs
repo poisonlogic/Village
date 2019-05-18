@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Village.Core.DIMCUP;
 
 namespace Village.Map.MapStructures
 {
-    public class MapStructManager
+    public class MapStructManager<TDef> : BaseDimcupManager<TDef> where TDef : MapStructDef
     {
-        private Dictionary<string, IMapStructInstance> _mapStructs;
+        private Dictionary<string, IMapStructInstance<TDef>> _mapStructs;
         private string[,] _cachedRefMap;
 
-        public IEnumerable<IMapStructInstance> AllMapStructs { get { return _mapStructs.Select(x => x.Value); } }
-        public IMapStructUser TileMap { get; private set; }
+        public IEnumerable<IMapStructInstance<TDef>> AllMapStructs { get { return _mapStructs.Select(x => x.Value); } }
+        public IMapStructProvider<TDef> TileMap { get; private set; }
 
-        public MapStructManager(IMapStructUser tileMap)
+        public MapStructManager(IMapStructProvider<TDef> tileMap)
         {
             TileMap = tileMap;
             _cachedRefMap = new string[tileMap.Width,tileMap.Height];
-            _mapStructs = new Dictionary<string, IMapStructInstance>();
+            _mapStructs = new Dictionary<string, IMapStructInstance<TDef>>();
         }
 
-        public IMapStructInstance StructureAt(int x, int y)
+        public IMapStructInstance<TDef> StructureAt(int x, int y)
         {
             var id = _cachedRefMap[x, y];
             if (id == null)
@@ -30,9 +31,9 @@ namespace Village.Map.MapStructures
                 return _mapStructs[id];
         }
 
-        public bool CanAddInstance(IMapStructInstance mapStruct)
+        public bool CanAddInstance(IMapStructInstance<TDef> instance)
         {
-            var footPrint = mapStruct.GetFootprint();
+            var footPrint = instance.GetFootprint();
 
             foreach (var print in footPrint)
             {
@@ -47,7 +48,7 @@ namespace Village.Map.MapStructures
             return true;
         }
 
-        public bool TryAddStructure(IMapStructInstance mapStruct)
+        public bool TryAddStructure(IMapStructInstance<TDef> mapStruct)
         {
             if (!CanAddInstance(mapStruct))
                 return false;
@@ -77,6 +78,26 @@ namespace Village.Map.MapStructures
                     _cachedRefMap[x, y] = struc.Key;
                 }
             }
+        }
+
+        public override bool TryTransferInstance(IDimcupInstance<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfInstanceChange(IDimcupInstance<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfUserChange(IDimcupUser<TDef> instance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InformOfProviderChange(IDimcupProvider<TDef> instance)
+        {
+            throw new NotImplementedException();
         }
     }
 }

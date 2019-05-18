@@ -90,11 +90,46 @@ namespace Tester
 
         public static void CreateNewPop()
         {
-            var pop = PopulationManager.RandomVillager();
-            if (VillageManager.TryAddVillager(pop))
-                Console.WriteLine(string.Format("New Pop: {0} Sucessfully added", pop.Label));
-            else
-                Console.WriteLine("Failed to add new pop");
+            //var pop = PopulationManager.RandomVillager();
+            //if (VillageManager.TryAddVillager(pop))
+            //    Console.WriteLine(string.Format("New Pop: {0} Sucessfully added", pop.Label));
+            //else
+            //    Console.WriteLine("Failed to add new pop");
         }
     }
+
+
+
+    public interface IDef{}
+    public interface IInst<D> where D : IDef{}
+    public interface IMan<D> where D: IDef { IInst<D> Instance { get; } }
+
+    public interface IADef : IDef { }
+    public interface IAInst<D> : IInst<D> where D : IADef { }
+    public interface IAMan<D> : IMan<D> where D : IADef { }
+    
+    public interface IBDef : IDef { }
+    public interface IBInst<D> : IInst<D> where D : IBDef { }
+    public interface IBMan<D> : IMan<D> where D : IBDef { }
+
+    public class BaseDef : IADef { }
+    public class BaseInst<D> : IInst<D> where D : BaseDef { }
+    public class BaseMan<D> : IMan<D> where D : BaseDef
+    {
+        public BaseInst<D> Instance { get; }
+
+        IInst<D> IMan<D>.Instance => Instance as IInst<D>;
+    }
+
+    public class ABDef : IADef, IBDef { }
+    public class ABInst : IAInst<ABDef>, IBInst<ABDef> { }
+    public class ABMan : IAMan<BaseDef>, IBMan<ABDef>
+    {
+        public IInst<ABDef> Instance { get; }
+
+        IInst<BaseDef> IMan<BaseDef>.Instance => throw new NotImplementedException();
+    }
+
+
+
 }

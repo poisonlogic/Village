@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Village.Buildings;
 using Village.Core;
+using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
@@ -17,12 +18,11 @@ namespace Village.Social.Jobs
         NowDone = 4
     }
 
-    public interface IJobInstance
+    public interface IJobInstance<TDef> : IDimcupRunnableInstance<TDef> where TDef : JobDef
     {
-        string InstanceId { get; }
         JobDef JobDef { get; }
-        IEnumerable<IJobWorker> Workers { get; }
-        IJobProvider JobProvider{ get; }
+        IEnumerable<IJobWorker<TDef>> Workers { get; }
+        IJobProvider<TDef> JobProvider { get; }
         bool Disabled { get; }
         JobState JobState { get; }
         SimpleTime StartedAt();
@@ -30,11 +30,7 @@ namespace Village.Social.Jobs
         int Priority { get; }
 
         bool HasOpenPosition();
-        bool TryAddWorker(IJobWorker worker);
-        bool CanAddWorker(IJobWorker worker);
-
-        bool TryStart();
-        bool TryCancel();
-        bool TryFinsh();
+        bool TryAddWorker(IJobWorker<TDef> worker);
+        bool CanAddWorker(IJobWorker<TDef> worker);
     }
 }

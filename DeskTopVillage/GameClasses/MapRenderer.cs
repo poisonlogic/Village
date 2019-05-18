@@ -18,9 +18,11 @@ namespace DeskTopVillage.GameClasses
         public static int Scaled_Width { get { return (int)(Tile_Width * Zoom); } }
         public static int Scaled_Height { get { return (int)(Tile_Height * Zoom); } }
 
+        public static MapStructDef DebugDef;
+
         public static decimal Zoom = 1;
         public static VillageMap Map;
-        public static MapStructManager MapStructManager;
+        public static MapStructManager<MapStructDef> MapStructManager;
 
         private static Dictionary<Tile, Texture2D> _tileGraphics;
         private static Texture2D defaultGraphic;
@@ -37,13 +39,22 @@ namespace DeskTopVillage.GameClasses
             CurrentGame = game;
             _tileGraphics = new Dictionary<Tile, Texture2D>();
 
-            MapStructManager = new MapStructManager(Map);
+            MapStructManager = new MapStructManager<MapStructDef>(Map);
+
+
             var defs = Village.Core.Loader.DefLoader.LoadDefs<MapStructDef>("C:/temp");
-            var mapStruc = new BaseMapStructInstance(defs.First(), 3, 3);
-
+            var mapStruc = new BaseMapStructInstance<MapStructDef>(MapStructManager, Map, defs.First(), 2, 1);
+            mapStruc.Def.SpriteDetails = new Village.Core.SpriteDetails
+            {
+                SpriteHeight = 2,
+                SpriteWidth = 2,
+                SpriteOffsetX = 0,
+                SpriteOffsetY = -1,
+                SpriteName = "house"
+            };
             MapStructManager.TryAddStructure(mapStruc);
-
-            MapStructManager.TryAddStructure(new BaseMapStructInstance(defs.Last(), 8, 3));
+            DebugDef = defs.First();
+            MapStructManager.TryAddStructure(new BaseMapStructInstance<MapStructDef>(MapStructManager, Map, defs.Last(), 8, 3));
 
 
             foreach (var tile in Map.Tiles)
@@ -110,21 +121,36 @@ namespace DeskTopVillage.GameClasses
 
 
 
-                if (MapStructManager.StructureAt(tile.Key.X, tile.Key.Y) != null)
+                var mapStuc = MapStructManager.StructureAt(tile.Key.X, tile.Key.Y);
+                if (mapStuc != null && mapStuc.XAnchor == tile.Key.X && mapStuc.YAnchor == tile.Key.Y)
                 {
-                    if (wasLast > 0)
-                        color = Color.Orange;
-                    else
-                        color = Color.Red;
+                    var scaledDest = new Rectangle(
+                        dest.X + (mapStuc.MapStructDef.SpriteDetails.SpriteOffsetX * Tile_Width), 
+                        dest.Y + (mapStuc.MapStructDef.SpriteDetails.SpriteOffsetY * Tile_Height),
+                        dest.Width * mapStuc.MapStructDef.SpriteDetails.SpriteWidth, 
+                        dest.Height * mapStuc.MapStructDef.SpriteDetails.SpriteHeight);
+                    spriteBatch.Draw(Game1.texts["house"], scaledDest, color);
+                }
+                else if(mapStuc != null)
+                {
+
+                }
+                else
+                {
+
+                    spriteBatch.Draw(rect, dest, color); ;
+                    spriteBatch.DrawString(SpriteFont, string.Format("({0},{1})", tile.Key.X, tile.Key.Y), coor + new Vector2(10, 10), Color.Black);
+
                 }
 
-                spriteBatch.Draw(rect, dest, color);;
-                spriteBatch.DrawString(SpriteFont, string.Format("({0},{1})", tile.Key.X, tile.Key.Y), coor + new Vector2(10,10), Color.Black);
 
-                if(DebugTool.CurrentX == tile.Key.X && DebugTool.CurrentY == tile.Key.Y)
+                if (DebugTool.CurrentX == tile.Key.X && DebugTool.CurrentY == tile.Key.Y)
                 {
                     var text = DebugTool.createCircleText(Tile_Width / 2, graphics.GraphicsDevice);
-                    spriteBatch.Draw(text, dest, Color.Gray);
+                    if (mapStuc == null)
+                        spriteBatch.Draw(text, dest, Color.Gray);
+                    else
+                        spriteBatch.Draw(text, dest, Color.Red);
                 }
             }
             wasLast++;
@@ -134,5 +160,19 @@ namespace DeskTopVillage.GameClasses
         }
 
         public static int wasLast;
+
+        public static void MakeNewStructAtLocation(int x, int y)
+        {
+            var mapStruc = new BaseMapStructInstance<MapStructDef>(MapStructManager, Map, DebugDef, x, y);
+            mapStruc.Def.SpriteDetails = new Village.Core.SpriteDetails
+            {
+                SpriteHeight = 2,
+                SpriteWidth = 2,
+                SpriteOffsetX = 0,
+                SpriteOffsetY = -1,
+                SpriteName = "house"
+            };
+            MapStructManager.TryAddStructure(mapStruc);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Village.Core;
+using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
@@ -15,9 +16,9 @@ namespace Village.Social.Jobs
         Single = 2
     }
 
-    public class JobDef
+    public class JobDef : IDimcupRunnableDef
     {
-        public string JobName { get; set; }
+        public string DefName { get; set; }
         public IEnumerable<string> Tags { get; set; }
         public JobType JobType { get; set; }
         public int MaxWorkerCount { get; set; }
@@ -25,6 +26,5 @@ namespace Village.Social.Jobs
         public SimpleTime TimeToComplete { get; set; }
         public IEnumerable<string> RequiredTags { get; set; }
         public IEnumerable<string> ForbidenTags { get; set; }
-        
     }
 }

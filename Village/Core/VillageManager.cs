@@ -13,19 +13,19 @@ namespace Village.Core
     {
         public VillageMap Map { get; private set; }
         public PopulationManager PopulationManager { get; }
-        public MapStructManager MapStructManager { get; }
-        public JobManager JobManager { get; }
+        //public MapStructManager MapStructManager { get; }
+        public JobManager<JobDef> JobManager { get; }
         public ResourceManager ResourceManager { get; }
 
-        public IEnumerable<IJobProvider> AllIJobProviders { get { return MapStructManager.AllMapStructs.Where(x => x is IJobProvider).Select(x => x as IJobProvider); } }
-        public IEnumerable<IJobWorker> AllIJobWorkers { get { return MapStructManager.AllMapStructs.Where(x => x is IJobWorker).Select(x => x as IJobWorker); } }
+        //public IEnumerable<IJobProvider> AllIJobProviders { get { return MapStructManager.AllMapStructs.Where(x => x is IJobProvider).Select(x => x as IJobProvider); } }
+        //public IEnumerable<IJobWorker> AllIJobWorkers { get { return MapStructManager.AllMapStructs.Where(x => x is IJobWorker).Select(x => x as IJobWorker); } }
 
         public VillageManager()
         {
             this.Map = new VillageMap(20, 20);
             PopulationManager = new PopulationManager();
-            MapStructManager = new MapStructManager(Map);
-            JobManager = new JobManager();
+            //MapStructManager = new MapStructManager(Map);
+            JobManager = new JobManager<JobDef>();
             //this.ResourceManager = new ResourceMaster();
         }
 
@@ -33,15 +33,15 @@ namespace Village.Core
         {
             if (!this.PopulationManager.TryAddNewVillager(newGuy))
                 return false;
-            if (newGuy is IJobWorker)
-                this.JobManager.TryRegisterNewWorker(newGuy as IJobWorker);
+            if (newGuy is IJobWorker<JobDef>)
+                this.JobManager.TryRegisterNewWorker(newGuy as IJobWorker<JobDef>);
             return true;
         }
 
-        public bool TryAddNewMapStruct(IMapStructInstance mapStruct)
+        public bool TryAddNewMapStruct(IMapStructInstance<MapStructDef> mapStruct)
         {
-            if (!this.MapStructManager.TryAddStructure(mapStruct))
-                return false;
+            //if (!this.MapStructManager.TryAddStructure(mapStruct))
+            //    return false;
             if (mapStruct is IResourceUser)
                 this.ResourceManager.TryRegiseringUser(mapStruct as IResourceUser);
             return true;
@@ -49,9 +49,9 @@ namespace Village.Core
 
         public void TryFindJobsForAll()
         {
-            foreach (IJobWorker worker in AllIJobWorkers)
-                if (!worker.HasJob)
-                    JobManager.FindOpenJobForAndHire(worker);
+            //foreach (IJobWorker worker in AllIJobWorkers)
+            //    if (!worker.HasJob)
+            //        JobManager.FindOpenJobForAndHire(worker);
         }
 
         public void PrintPop()

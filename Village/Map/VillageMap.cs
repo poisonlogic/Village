@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Village.Map.MapStructures;
+using Village.Core.DIMCUP;
 
 namespace Village.Map
 {
-    public class VillageMap : IMapStructUser
+    public class VillageMap : BaseDimcupProvider<MapStructDef>, IMapStructProvider<MapStructDef>
     {
-        public Guid InstanceId { get; }
+        
         public string Label { get; }
+        public IEnumerable<string> Tags { get; }
 
         public int Width { get; }
         public int Height { get; }

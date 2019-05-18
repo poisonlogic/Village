@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Village.Core.DIMCUP;
 using Village.Social.Jobs;
 
 namespace Village.Social.Jobs
 {
-    public interface IJobProvider
+    public interface IJobProvider<TDef> : IDimcupProvider<TDef> where TDef : JobDef
     {
         string Label { get; }
-        string InstanceId { get; }
-        IEnumerable<string> Tags { get; }
+
+        IEnumerable<string> ProvidedJobDefNames { get; }
 
         //bool HasOpenWorkerSlot { get; }
         //bool TryAddWorker(IJobWorker worker);

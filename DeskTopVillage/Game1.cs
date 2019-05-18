@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace DeskTopVillage
 {
@@ -12,7 +13,9 @@ namespace DeskTopVillage
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+
+        public static Dictionary<string, Texture2D> texts;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -21,6 +24,8 @@ namespace DeskTopVillage
             graphics.PreferredBackBufferWidth = 1000;
             graphics.PreferredBackBufferHeight = 700;
             graphics.ApplyChanges();
+
+            texts = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -46,6 +51,7 @@ namespace DeskTopVillage
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            texts.Add("house", Content.Load<Texture2D>("house"));
             // TODO: use this.Content to load your game content here
         }
 

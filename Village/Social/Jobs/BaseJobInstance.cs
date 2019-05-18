@@ -5,79 +5,45 @@ using System.Text;
 using System.Threading.Tasks;
 using Village.Buildings;
 using Village.Core;
+using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
-    public abstract class BaseJobInstance : IJobInstance
+    public abstract class BaseJobInstance<TDef> : BaseDimcupRunnableInstance<TDef> where TDef : JobDef
     {
-        private List<IJobWorker> _workers;
-
+        private IEnumerable<IJobWorker<TDef>> _workers => _users.Select(x => x.Value as IJobWorker<TDef>);
         public string Name { get; private set; }
-        public string InstanceId { get; private set; }
-        public IEnumerable<IJobWorker> Workers { get { return _workers; } }
-        public IEnumerable<string> Tags { get; }
-        public JobDef JobDef { get; private set; }
-        public IJobProvider JobProvider{ get; private set; }
-        public int Priority { get; private set; }
-        public bool Disabled { get; set; }
-        public bool Running { get; private set; }
-
-        public JobState JobState { get; private set; }
-
         private SimpleTime _startedAt;
 
-        public BaseJobInstance(string jobDef, IJobProvider jobProvider)
+        public BaseJobInstance(IDimcupProvider<TDef> provider, IDimcupManager<TDef> manager, TDef def) : base(provider, manager, def)
         {
-            JobDef = new JobDef();
-            Name = JobDef.JobName;
-            InstanceId = Guid.NewGuid().ToString();
-            JobProvider = jobProvider;
-            _workers = new List<IJobWorker>();
         }
 
-        public virtual bool TryAddWorker(IJobWorker worker)
+        public virtual bool CanAcceptWorker(IJobWorker<TDef> worker) => CanAcceptUser(worker);
+        public override bool CanAcceptUser(IDimcupUser<TDef> user)
         {
-            if(CanAddWorker(worker))
-            {
-                _workers.Add(worker);
-                return true;
-            }
-            return false;
+            return base.CanAcceptUser(user);
         }
-
-        public virtual bool CanAddWorker(IJobWorker worker)
+        
+        public virtual bool TryAddWorker(IJobWorker<TDef> worker) => TryAddUser(worker);
+        public override bool TryAddUser(IDimcupUser<TDef> user)
         {
-            if (_workers.Count() >= JobDef.MaxWorkerCount)
-                return false;
-            return true;
+            return base.TryAddUser(user);
         }
-
-        public virtual bool CanDoCycle()
+        
+        public override bool TryStart()
         {
             if (this._workers.Count() == 0)
-                return false;
-            if (this.Disabled)
-                return false;
-            return true;
-        }
-
-        public virtual bool TryStart()
-        {
-            if (this._workers.Count() == 0 || this.Disabled)
             {
-                this.JobState = JobState.CantRun;
                 return false;
             }
-
-            this.JobState = JobState.Running;
             this._startedAt = SimpleTime.Now;
-            return true;
+            return base.TryStart();
         }
 
-        public virtual bool TryCancel()
+        public override bool TryCancel()
         {
-            this.JobState = JobState.Pending;
-            return true;
+            return base.TryCancel();
         }
 
         public abstract bool TryFinsh();
@@ -85,11 +51,6 @@ namespace Village.Social.Jobs
         public virtual SimpleTime StartedAt()
         {
             return _startedAt;
-        }
-
-        public virtual SimpleTime WillFinishAt()
-        {
-            return _startedAt + JobDef.TimeToComplete;
         }
 
         public bool HasOpenPosition()
