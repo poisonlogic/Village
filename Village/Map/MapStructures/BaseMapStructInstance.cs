@@ -7,7 +7,7 @@ using Village.Core.DIMCUP;
 
 namespace Village.Map.MapStructures
 {
-    public class BaseMapStructInstance<TDef> : BaseDimcupInstance<TDef>, IMapStructInstance<TDef> where TDef : MapStructDef
+    public class BaseMapStructInstance<TDef> : BaseDimInstance<TDef>, IMapStructInstance<TDef> where TDef : MapStructDef
     {
         private List<int[]> _cachedFootprint;
 

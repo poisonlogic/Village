@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Village.Core.DIMCUP
+namespace ExampleWaterMod.Interfaces
 {
-    public interface IDimcupDef
+    class IWaterUser
     {
-        string DefName { get; }
-        IEnumerable<string> Tags { get; }
     }
 }

@@ -5,7 +5,7 @@ using Village.Core.DIMCUP;
 
 namespace Village.Map.MapStructures
 {
-    public interface IMapStructInstance<TDef> : IDimcupInstance<TDef> where TDef : MapStructDef
+    public interface IMapStructInstance<TDef> : IDimInstance<TDef> where TDef : MapStructDef
     {
         string Label { get; }
         string Description { get; }

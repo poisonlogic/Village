@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public class BaseDimcupRunnableInstance<TDef> : BaseDimcupInstance<TDef>, IDimcupRunnableInstance<TDef> where TDef : IDimcupRunnableDef
+    public class BaseDimRunnableInstance<TDef> : BaseDimInstance<TDef>, IDimRunnableInstance<TDef> where TDef : IDimRunnableDef
     {
         protected RunnableInstanceState _state;
         
         public virtual RunnableInstanceState RunState { get { return _state; } }
         public virtual bool IsActive { get; }
 
-        public BaseDimcupRunnableInstance(IDimcupProvider<TDef> provider, IDimcupManager<TDef> manager, TDef def) : base(provider, manager, def)
+        public BaseDimRunnableInstance(IDimProvider<TDef> provider, IDimManager<TDef> manager, TDef def) : base(provider, manager, def)
         {
 
         }

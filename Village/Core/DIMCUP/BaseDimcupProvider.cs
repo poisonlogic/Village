@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public class BaseDimcupProvider<TDef> : IDimcupProvider<TDef> where TDef : BaseDimcupDef
+    public class BaseDimProvider<TDef> : IDimProvider<TDef> where TDef : BaseDimDef
     {
-        protected IDimcupManager<TDef> _manager;
-        protected Dictionary<string, IDimcupInstance<TDef>> _providedInstances;
+        protected IDimManager<TDef> _manager;
+        protected Dictionary<string, IDimInstance<TDef>> _providedInstances;
 
         public string InstanceId { get; }
         public IEnumerable<string> Tags { get; }
         public IEnumerable<string> ProvidedDefIds { get; }
-        public IEnumerable<IDimcupInstance<TDef>> ProvidingInstances { get; }
+        public IEnumerable<IDimInstance<TDef>> ProvidingInstances { get; }
         public IEnumerable<string> ProvidingInstanceIds { get; }
         
-        public virtual IDimcupManager<TDef> GetManager()
+        public virtual IDimManager<TDef> GetManager()
         {
             return _manager;
         }
 
         public virtual bool InformManagerOfChange() { return true; }
         public virtual bool InformManagerOfNewInstances() { return true; }
-        public virtual bool TrySetManager(IDimcupManager<TDef> manager) { return true; }
-        public virtual bool TryUnregisterInstance(IDimcupInstance<TDef> instance)
+        public virtual bool TrySetManager(IDimManager<TDef> manager) { return true; }
+        public virtual bool TryUnregisterInstance(IDimInstance<TDef> instance)
         {
             if (!_providedInstances.ContainsKey(instance.InstanceId))
                 return false;

@@ -1,0 +1,6 @@
+{
+  "PacketName": "PoisonLogic.Village.Jobs",
+  "PacketAssemblyName": "PoisonLogic.Village.Jobs",
+  "PacketManagerName": "PoisonLogic.Village.Jobs.JobManager"
+
+}

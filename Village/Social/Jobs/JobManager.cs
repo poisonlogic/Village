@@ -7,7 +7,7 @@ using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
-    public class JobManager<TDef> : BaseDimcupManager<TDef> where TDef : JobDef
+    public class JobManager<TDef> : BaseDimManager<TDef> where TDef : JobDef
     {
         public static JobManager<TDef> Instance;
 
@@ -18,6 +18,12 @@ namespace Village.Social.Jobs
         public IEnumerable<IJobInstance<TDef>> AllJobs { get { return _jobs.Select(x => x.Value); } }
         public IEnumerable<IJobInstance<TDef>> OpenJobs { get { return AllJobs.Where(x => x.HasOpenPosition()); } }
         public IEnumerable<IJobWorker<TDef>> AllWorkersOnJobs { get { return AllJobs.SelectMany(x => x.Workers); } }
+
+        public override Type TypeOfInstances => throw new NotImplementedException();
+
+        public override Type TypeOfUsers => throw new NotImplementedException();
+
+        public override Type TypeOfProviders => throw new NotImplementedException();
 
         public JobManager()
         {
@@ -118,22 +124,22 @@ namespace Village.Social.Jobs
             return sb.ToString();
         }
 
-        public override bool TryTransferInstance(IDimcupInstance<TDef> instance)
+        public override bool TryTransferInstance(IDimInstance<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfInstanceChange(IDimcupInstance<TDef> instance)
+        public override void InformOfInstanceChange(IDimInstance<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfUserChange(IDimcupUser<TDef> instance)
+        public override void InformOfUserChange(IDimUser<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfProviderChange(IDimcupProvider<TDef> instance)
+        public override void InformOfProviderChange(IDimProvider<TDef> instance)
         {
             throw new NotImplementedException();
         }

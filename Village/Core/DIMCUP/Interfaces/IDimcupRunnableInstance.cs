@@ -18,7 +18,7 @@ namespace Village.Core.DIMCUP
         Dead = 8
     }
 
-    public interface IDimcupRunnableInstance<T> : IDimcupInstance<T> where T : IDimcupRunnableDef
+    public interface IDimRunnableInstance<T> : IDimInstance<T> where T : IDimRunnableDef
     {
         RunnableInstanceState RunState { get; }
         bool IsActive { get; }

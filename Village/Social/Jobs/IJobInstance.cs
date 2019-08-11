@@ -18,7 +18,7 @@ namespace Village.Social.Jobs
         NowDone = 4
     }
 
-    public interface IJobInstance<TDef> : IDimcupRunnableInstance<TDef> where TDef : JobDef
+    public interface IJobInstance<TDef> : IDimRunnableInstance<TDef> where TDef : JobDef
     {
         JobDef JobDef { get; }
         IEnumerable<IJobWorker<TDef>> Workers { get; }

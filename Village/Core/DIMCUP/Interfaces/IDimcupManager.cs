@@ -6,25 +6,33 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public interface IDimcupManager<TDef> where TDef : IDimcupDef
+    public interface IDimManager<TDef> where TDef : IDimDef
     {
-        IDimcupCatalog<TDef> Catalog { get; }
-        IEnumerable<IDimcupInstance<TDef>> AllInstances { get; }
-        IEnumerable<IDimcupUser<TDef>> AllRegisteredUsers { get; }
-        IEnumerable<IDimcupProvider<TDef>> AllRegisteredProviders { get; }
+        IDimCatalog<TDef> Catalog { get; }
+        IEnumerable<IDimInstance<TDef>> AllInstances { get; }
+        IEnumerable<IDimUser<TDef>> AllRegisteredUsers { get; }
+        IEnumerable<IDimProvider<TDef>> AllRegisteredProviders { get; }
 
-        bool TryRegisterUser(IDimcupUser<TDef> user);
-        bool TryRegisterProvider(IDimcupProvider<TDef> provider);
-        bool TryRegisterNewInstance(IDimcupInstance<TDef> instance);
+        Type TypeOfInstances { get; }
+        Type TypeOfUsers { get; }
+        Type TypeOfProviders { get; }
 
-        bool TryDestroyInstance(IDimcupInstance<TDef> instance);
-        bool TryTransferInstance(IDimcupInstance<TDef> instance);
-        bool TryUnregisterUser(IDimcupUser<TDef> user);
-        bool TryUnregisterProvider(IDimcupProvider<TDef> provider);
+        bool InstanceIsOfType(IDimInstance<IDimDef> instance);
+        bool UserIsOfType(IDimUser<IDimDef> user);
+        bool ProviderIsOfType(IDimProvider<IDimDef> provider);
 
-        void InformOfInstanceChange(IDimcupInstance<TDef> instance);
-        void InformOfUserChange(IDimcupUser<TDef> user);
-        void InformOfProviderChange(IDimcupProvider<TDef> provider);
+        bool TryRegisterUser(IDimUser<TDef> user);
+        bool TryRegisterProvider(IDimProvider<TDef> provider);
+        bool TryRegisterNewInstance(IDimInstance<TDef> instance);
+
+        bool TryDestroyInstance(IDimInstance<TDef> instance);
+        bool TryTransferInstance(IDimInstance<TDef> instance);
+        bool TryUnregisterUser(IDimUser<TDef> user);
+        bool TryUnregisterProvider(IDimProvider<TDef> provider);
+
+        void InformOfInstanceChange(IDimInstance<TDef> instance);
+        void InformOfUserChange(IDimUser<TDef> user);
+        void InformOfProviderChange(IDimProvider<TDef> provider);
 
     }
 }

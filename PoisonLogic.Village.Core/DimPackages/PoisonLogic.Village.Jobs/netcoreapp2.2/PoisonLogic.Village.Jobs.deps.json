@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "PoisonLogic.Village.Jobs/1.0.0": {
+        "dependencies": {
+          "PoisonLogic.Dim": "1.0.0",
+          "PoisonLogic.Village.Population": "1.0.0"
+        },
+        "runtime": {
+          "PoisonLogic.Village.Jobs.dll": {}
+        }
+      },
+      "PoisonLogic.Dim/1.0.0": {
+        "runtime": {
+          "PoisonLogic.Dim.dll": {}
+        }
+      },
+      "PoisonLogic.Village.Population/1.0.0": {
+        "dependencies": {
+          "PoisonLogic.Dim": "1.0.0"
+        },
+        "runtime": {
+          "PoisonLogic.Village.Population.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PoisonLogic.Village.Jobs/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PoisonLogic.Dim/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PoisonLogic.Village.Population/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

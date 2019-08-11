@@ -6,25 +6,29 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public abstract class BaseDimcupManager<TDef> : IDimcupManager<TDef> where TDef : IDimcupDef
+    public abstract class BaseDimManager<TDef> : IDimManager<TDef> where TDef : IDimDef
     {
-        protected Dictionary<string, IDimcupInstance<TDef>> _instances;
-        protected Dictionary<string, IDimcupUser<TDef>> _registeredUsers;
-        protected Dictionary<string, IDimcupProvider<TDef>> _registeredProviders;
+        protected Dictionary<string, IDimInstance<TDef>> _instances;
+        protected Dictionary<string, IDimUser<TDef>> _registeredUsers;
+        protected Dictionary<string, IDimProvider<TDef>> _registeredProviders;
 
-        public IDimcupCatalog<TDef> Catalog { get; }
-        public IEnumerable<IDimcupInstance<TDef>> AllInstances => _instances.Select(x => x.Value); 
-        public IEnumerable<IDimcupUser<TDef>> AllRegisteredUsers => _registeredUsers.Select(x => x.Value);
-        public IEnumerable<IDimcupProvider<TDef>> AllRegisteredProviders => _registeredProviders.Select(x => x.Value);
+        public abstract Type TypeOfInstances { get; }
+        public abstract Type TypeOfUsers { get; }
+        public abstract Type TypeOfProviders { get; }
 
-        public BaseDimcupManager()
+        public IDimCatalog<TDef> Catalog { get; }
+        public IEnumerable<IDimInstance<TDef>> AllInstances => _instances.Select(x => x.Value); 
+        public IEnumerable<IDimUser<TDef>> AllRegisteredUsers => _registeredUsers.Select(x => x.Value);
+        public IEnumerable<IDimProvider<TDef>> AllRegisteredProviders => _registeredProviders.Select(x => x.Value);
+
+        public BaseDimManager()
         {
-            _instances = new Dictionary<string, IDimcupInstance<TDef>>();
-            _registeredUsers = new Dictionary<string, IDimcupUser<TDef>>();
-            _registeredProviders = new Dictionary<string, IDimcupProvider<TDef>>();
+            _instances = new Dictionary<string, IDimInstance<TDef>>();
+            _registeredUsers = new Dictionary<string, IDimUser<TDef>>();
+            _registeredProviders = new Dictionary<string, IDimProvider<TDef>>();
         }
 
-        public virtual bool TryRegisterNewInstance(IDimcupInstance<TDef> instance)
+        public virtual bool TryRegisterNewInstance(IDimInstance<TDef> instance)
         {
             if (_instances.ContainsKey(instance.InstanceId))
                 return false;
@@ -35,7 +39,7 @@ namespace Village.Core.DIMCUP
             }
         }
 
-        public virtual bool TryRegisterProvider(IDimcupProvider<TDef> provider)
+        public virtual bool TryRegisterProvider(IDimProvider<TDef> provider)
         {
             if (_registeredProviders.ContainsKey(provider.InstanceId))
                 return false;
@@ -46,7 +50,7 @@ namespace Village.Core.DIMCUP
             }
         }
 
-        public virtual bool TryUnregisterProvider(IDimcupProvider<TDef> provider)
+        public virtual bool TryUnregisterProvider(IDimProvider<TDef> provider)
         {
             if (!_registeredProviders.ContainsKey(provider.InstanceId))
                 return false;
@@ -54,7 +58,7 @@ namespace Village.Core.DIMCUP
             return true;
         }
 
-        public virtual bool TryRegisterUser(IDimcupUser<TDef> user)
+        public virtual bool TryRegisterUser(IDimUser<TDef> user)
         {
             if (_registeredUsers.ContainsKey(user.InstanceId))
                 return false;
@@ -65,7 +69,7 @@ namespace Village.Core.DIMCUP
             }
         }
 
-        public virtual bool TryUnregisterUser(IDimcupUser<TDef> user)
+        public virtual bool TryUnregisterUser(IDimUser<TDef> user)
         {
             if (!_registeredUsers.ContainsKey(user.InstanceId))
                 return false;
@@ -89,7 +93,7 @@ namespace Village.Core.DIMCUP
 
         }
 
-        public virtual bool TryDestroyInstance(IDimcupInstance<TDef> instance)
+        public virtual bool TryDestroyInstance(IDimInstance<TDef> instance)
         {
             if (!_instances.ContainsKey(instance.InstanceId))
                 return false;
@@ -97,9 +101,24 @@ namespace Village.Core.DIMCUP
             return true;
         }
 
-        public abstract bool TryTransferInstance(IDimcupInstance<TDef> instance);
-        public abstract void InformOfInstanceChange(IDimcupInstance<TDef> instance);
-        public abstract void InformOfUserChange(IDimcupUser<TDef> instance);
-        public abstract void InformOfProviderChange(IDimcupProvider<TDef> instance);
+        public abstract bool TryTransferInstance(IDimInstance<TDef> instance);
+        public abstract void InformOfInstanceChange(IDimInstance<TDef> instance);
+        public abstract void InformOfUserChange(IDimUser<TDef> instance);
+        public abstract void InformOfProviderChange(IDimProvider<TDef> instance);
+
+        public bool InstanceIsOfType(IDimInstance<IDimDef> instance)
+        {
+            return instance.GetType().IsSubclassOf(TypeOfInstances) || TypeOfInstances == instance.GetType();
+        }
+
+        public bool UserIsOfType(IDimUser<IDimDef> user)
+        {
+            return user.GetType().IsSubclassOf(TypeOfUsers) || TypeOfUsers == user.GetType();
+        }
+
+        public bool ProviderIsOfType(IDimProvider<IDimDef> provider)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

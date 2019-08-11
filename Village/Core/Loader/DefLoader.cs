@@ -12,6 +12,13 @@ namespace Village.Core.Loader
     {
         public static IEnumerable<T> LoadDefs<T>(string dir)
         {
+            //Get mods to load
+
+            // Load those dlls
+
+
+
+
             if (!Directory.Exists(dir))
                 throw new Exception(string.Format("DefLoader: Directory does not exist {0}", dir));
 

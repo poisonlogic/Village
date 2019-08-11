@@ -7,7 +7,7 @@ using Village.Core.DIMCUP;
 
 namespace Village.Social.Jobs
 {
-    public interface IJobWorker<TDef> : IDimcupUser<TDef> where TDef : JobDef
+    public interface IJobWorker<TDef> : IDimUser<TDef> where TDef : JobDef
     {
         string Label { get; }
 

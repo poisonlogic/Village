@@ -9,7 +9,7 @@ using Village.Core.DIMCUP;
 
 namespace Village.Map.MapStructures
 {
-    public class MapStructDef : BaseDimcupDef
+    public class MapStructDef : BaseDimDef
     {
         public string Label { get; }
         public string Description { get; }

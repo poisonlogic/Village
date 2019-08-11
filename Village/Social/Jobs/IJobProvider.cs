@@ -8,7 +8,7 @@ using Village.Social.Jobs;
 
 namespace Village.Social.Jobs
 {
-    public interface IJobProvider<TDef> : IDimcupProvider<TDef> where TDef : JobDef
+    public interface IJobProvider<TDef> : IDimProvider<TDef> where TDef : JobDef
     {
         string Label { get; }
 

@@ -21,14 +21,14 @@
 
 //        public IEnumerable<string> ProvidingInstanceIds => throw new NotImplementedException();
 
-//        public IEnumerable<IDimcupInstance<JobDef>> ProvidingInstances => throw new NotImplementedException();
+//        public IEnumerable<IDimInstance<JobDef>> ProvidingInstances => throw new NotImplementedException();
 
-//        public IDimcupManager<JobDef, IDimcupInstance<JobDef>, IDimcupCatalog<JobDef>, IDimcupUser<JobDef>, IDimcupProvider<JobDef>> GetManager<t>()
+//        public IDimManager<JobDef, IDimInstance<JobDef>, IDimCatalog<JobDef>, IDimUser<JobDef>, IDimProvider<JobDef>> GetManager<t>()
 //        {
 //            throw new NotImplementedException();
 //        }
 
-//        public bool HasNewInstances(out IEnumerable<IDimcupInstance<JobDef>> newInstances)
+//        public bool HasNewInstances(out IEnumerable<IDimInstance<JobDef>> newInstances)
 //        {
 //            throw new NotImplementedException();
 //        }

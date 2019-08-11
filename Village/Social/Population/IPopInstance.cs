@@ -7,10 +7,8 @@ using Village.Core.DIMCUP;
 
 namespace Village.Social.Population
 {
-    public interface IPopInstance : IDimcupInstance<BaseDimcupDef>
+    public interface IPopInstance : IDimInstance<BaseDimDef>
     {
-        string InstanceId { get; }
         string Label { get; }
-        IEnumerable<string> Tags { get; }
     }
 }

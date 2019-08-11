@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PoisonLogic.Dim\PoisonLogic.Dim.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dims\" />
+  </ItemGroup>
+
+</Project>

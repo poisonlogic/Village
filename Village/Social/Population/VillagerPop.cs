@@ -37,9 +37,9 @@ namespace Village.Social.Population
 
         //public string DefName => throw new NotImplementedException();
 
-        //public IDimcupProvider<BaseDimcupDef> InstanceProvider => throw new NotImplementedException();
+        //public IDimProvider<BaseDimDef> InstanceProvider => throw new NotImplementedException();
 
-        //public IEnumerable<IDimcupUser<BaseDimcupDef>> InstanceUsers => throw new NotImplementedException();
+        //public IEnumerable<IDimUser<BaseDimDef>> InstanceUsers => throw new NotImplementedException();
 
         //bool IJobWorker.TryTransferToNewJob(IJobInstance job)
         //{

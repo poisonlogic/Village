@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public class BaseDimcupUser<TDef> : IDimcupUser<TDef> where TDef : IDimcupDef
+    public class BaseDimUser<TDef> : IDimUser<TDef> where TDef : IDimDef
     {
-        private IDimcupManager<TDef> _manager;
+        private IDimManager<TDef> _manager;
         public string InstanceId { get; }
         public IEnumerable<string> Tags { get; }
-        public IDimcupInstance<TDef> UsingInstance { get; private set; }
+        public IDimInstance<TDef> UsingInstance { get; private set; }
 
-        public IDimcupManager<TDef> GetManager()
+        public IDimManager<TDef> GetManager()
         {
             return _manager;
         }
-        public bool TrySetManager(IDimcupManager<TDef> manager)
+        public bool TrySetManager(IDimManager<TDef> manager)
         {
             this._manager = manager;
             return true;
@@ -25,13 +25,13 @@ namespace Village.Core.DIMCUP
         public virtual bool InformManagerOfChange() { return true; }
 
 
-        public bool TryAssignToInstance(IDimcupInstance<TDef> instance)
+        public bool TryAssignToInstance(IDimInstance<TDef> instance)
         {
             this.UsingInstance = instance;
             return true;
         }
 
-        public bool TryUnAssignFromInstance(IDimcupInstance<TDef> instance)
+        public bool TryUnAssignFromInstance(IDimInstance<TDef> instance)
         {
             if (this.UsingInstance.InstanceId == instance.InstanceId)
             {

@@ -48,6 +48,7 @@
     <Compile Include="Buildings\BaseJobBuilding.cs" />
     <Compile Include="Buildings\IBuilding.cs" />
     <Compile Include="Buildings\JobBuildingDef.cs" />
+    <Compile Include="Core\Administrator\VillageAdministrator.cs" />
     <Compile Include="Core\DIMCUP\BaseDimcupCatalog.cs" />
     <Compile Include="Core\DIMCUP\BaseDimcupDef.cs" />
     <Compile Include="Core\DIMCUP\BaseDimcupInstance.cs" />
@@ -55,8 +56,9 @@
     <Compile Include="Core\DIMCUP\BaseDimcupProvider.cs" />
     <Compile Include="Core\DIMCUP\BaseDimcupUser.cs" />
     <Compile Include="Core\DIMCUP\BaseDimcupRunnableInstance.cs" />
+    <Compile Include="Core\DIMCUP\DimcupPackage.cs" />
     <Compile Include="Core\DIMCUP\Interfaces\IDimcupCatalog.cs" />
-    <Compile Include="Core\DIMCUP\Interfaces\IDimcupDef.cs" />
+    <Compile Include="Core\DIMCUP\Interfaces\DimcupDef.cs" />
     <Compile Include="Core\DIMCUP\Interfaces\IDimcupInstance.cs" />
     <Compile Include="Core\DIMCUP\Interfaces\IDimcupManager.cs" />
     <Compile Include="Core\DIMCUP\Interfaces\IDimcupRunnableDef.cs" />

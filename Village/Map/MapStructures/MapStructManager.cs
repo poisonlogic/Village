@@ -7,12 +7,16 @@ using Village.Core.DIMCUP;
 
 namespace Village.Map.MapStructures
 {
-    public class MapStructManager<TDef> : BaseDimcupManager<TDef> where TDef : MapStructDef
+    public class MapStructManager<TDef> : BaseDimManager<TDef> where TDef : MapStructDef
     {
         private Dictionary<string, IMapStructInstance<TDef>> _mapStructs;
         private string[,] _cachedRefMap;
 
-        public IEnumerable<IMapStructInstance<TDef>> AllMapStructs { get { return _mapStructs.Select(x => x.Value); } }
+        public override Type TypeOfInstances => typeof(BaseMapStructInstance<TDef>);
+        public override Type TypeOfUsers => null;
+        public override Type TypeOfProviders => typeof(BaseMapStructInstance<TDef>);
+
+        public IEnumerable<IMapStructInstance<TDef>> AllMapStructs => _mapStructs.Select(x => x.Value);
         public IMapStructProvider<TDef> TileMap { get; private set; }
 
         public MapStructManager(IMapStructProvider<TDef> tileMap)
@@ -80,22 +84,22 @@ namespace Village.Map.MapStructures
             }
         }
 
-        public override bool TryTransferInstance(IDimcupInstance<TDef> instance)
+        public override bool TryTransferInstance(IDimInstance<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfInstanceChange(IDimcupInstance<TDef> instance)
+        public override void InformOfInstanceChange(IDimInstance<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfUserChange(IDimcupUser<TDef> instance)
+        public override void InformOfUserChange(IDimUser<TDef> instance)
         {
             throw new NotImplementedException();
         }
 
-        public override void InformOfProviderChange(IDimcupProvider<TDef> instance)
+        public override void InformOfProviderChange(IDimProvider<TDef> instance)
         {
             throw new NotImplementedException();
         }

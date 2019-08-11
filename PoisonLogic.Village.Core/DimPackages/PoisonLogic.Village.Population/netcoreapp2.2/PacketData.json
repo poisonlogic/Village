@@ -1,0 +1,5 @@
+{
+  "PacketName": "PoisonLogic.Village.Population",
+  "PacketAssemblyName": "PoisonLogic.Village.Population",
+  "PacketManagerName": "PoisonLogic.Village.Population.PopulationManager"
+}

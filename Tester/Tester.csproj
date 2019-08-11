@@ -51,9 +51,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Village\Village.csproj">
-      <Project>{6c1db477-5ae3-4b9b-8f7d-7eb93ced72d9}</Project>
-      <Name>Village</Name>
+    <ProjectReference Include="..\PoisonLogic.Dim\PoisonLogic.Dim.csproj">
+      <Project>{bd5c0b31-4e5c-4e12-b31f-88f4b1aecc25}</Project>
+      <Name>PoisonLogic.Dim</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PoisonLogic.Village.Core\PoisonLogic.Village.Core.csproj">
+      <Project>{3126a441-abe5-4839-95bc-c585374bee3d}</Project>
+      <Name>PoisonLogic.Village.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PoisonLogic.Village.Jobs\PoisonLogic.Village.Jobs.csproj">
+      <Project>{79317683-a071-4d0b-bc04-efc8131b2aac}</Project>
+      <Name>PoisonLogic.Village.Jobs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PoisonLogic.Village.Population\PoisonLogic.Village.Population.csproj">
+      <Project>{b868f486-736f-419a-bf1b-c96ea5e68aae}</Project>
+      <Name>PoisonLogic.Village.Population</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

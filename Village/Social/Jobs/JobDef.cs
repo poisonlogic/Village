@@ -16,9 +16,10 @@ namespace Village.Social.Jobs
         Single = 2
     }
 
-    public class JobDef : IDimcupRunnableDef
+    public class JobDef : IDimRunnableDef
     {
         public string DefName { get; set; }
+        public string PackageName { get; }
         public IEnumerable<string> Tags { get; set; }
         public JobType JobType { get; set; }
         public int MaxWorkerCount { get; set; }

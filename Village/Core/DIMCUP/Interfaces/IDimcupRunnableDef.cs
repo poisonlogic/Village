@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public interface IDimcupRunnableDef : IDimcupDef
+    public interface IDimRunnableDef : IDimDef
     {
     }
 }

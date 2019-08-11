@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public interface IDimcupRunnableManager<TDef> : IDimcupManager<TDef> where TDef : IDimcupRunnableDef
+    public interface IDimRunnableManager<TDef> : IDimManager<TDef> where TDef : IDimRunnableDef
     {
+        IEnumerable<IDimInstance<TDef>> AllRunningInstances { get; }
+        void Update();
+        void CheckForStart();
+        void CheckForFinished();
+        void PauseAll();
+        void UnpauseAll();
 
     }
 }

@@ -3,38 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Village.Core;
-using Village.Core.Loader;
-using Village.Map.MapStructures;
-using Village.Social.Jobs;
-using Village.Social.Jobs.ResourceJobs;
-using Village.Social.Population;
 
 namespace Tester
 {
     class Program
     {
         public static bool Running;
-        public static VillageManager VillageManager;
+
         static void Main(string[] args)
         {
-            //MatingSim.MatingTest();
-            //Console.ReadLine();
-
-            //var job = new ResourceJobDef
-            //{
-            //    JobName = "Miner",
-            //    JobType = JobType.Repeat,
-            //    MaxWorkerCount = 3,
-            //    TimeToComplete = new SimpleTime(0, 0, 0, 0, 5, 0),
-            //    Tags = new string[] { "mine" },
-            //    ResourceExchanges = new Dictionary<string, int>()
-            //};
-
-            //job.ResourceExchanges.Add("resource_iron", 50);
-            //DefLoader.WriteDef<ResourceJobDef>("C:/temp/jobdefs.json", new List<ResourceJobDef> { job });
-
-            VillageManager = new VillageManager();
+            var admin = new Administrator(new ConsoleLogger(), @"C:\Users\Jack\source\repos\Village\PoisonLogic.Village.Core\DimPackages");
+            admin.PacketWarehouse.LoadAllPackets();
+            admin.LoadAllAssemblies();
+            admin.LoadAllManagers();
 
             Running = true;
             while(Running)
@@ -42,8 +23,7 @@ namespace Tester
                 var line = Console.ReadLine();
                 ProcessInput(line);
             }
-            //var defs = DefLoader.LoadDefs<MapStructDef>("C:/temp");
-            //var first = defs.First();
+
 
         }
 

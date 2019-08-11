@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Village.Core.DIMCUP
 {
-    public interface IDimcupProvider<TDef> where TDef : IDimcupDef
+    public interface IDimProvider<TDef> where TDef : IDimDef
     {
         string InstanceId { get; }
         IEnumerable<string> Tags { get; }
         IEnumerable<string> ProvidedDefIds { get; }
         IEnumerable<string> ProvidingInstanceIds { get; }
-        IEnumerable<IDimcupInstance<TDef>> ProvidingInstances { get; }
+        IEnumerable<IDimInstance<TDef>> ProvidingInstances { get; }
 
 
-        IDimcupManager<TDef> GetManager();
-        bool TrySetManager(IDimcupManager<TDef> manager);
-        //bool HasNewInstances(out IEnumerable<IDimcupInstance<TDef>> newInstances);
+        IDimManager<TDef> GetManager();
+        bool TrySetManager(IDimManager<TDef> manager);
+        //bool HasNewInstances(out IEnumerable<IDimInstance<TDef>> newInstances);
         bool InformManagerOfChange();
         bool InformManagerOfNewInstances();
-        bool TryUnregisterInstance(IDimcupInstance<TDef> instance);
+        bool TryUnregisterInstance(IDimInstance<TDef> instance);
     }
 }

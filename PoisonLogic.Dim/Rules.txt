@@ -1,0 +1,29 @@
+﻿
+
+One manager per instance
+Communicate though interfaces
+
+ALL WRONG!!!!!!!!!
+---------Each plug in level is a level of granularity
+---------Creature - Humanoid
+---------Race - Elf
+---------Pop - Jim
+
+It's not a tree. It's atributes.
+Jim is a pop
+His Race is Elf
+His Creature type is Humanoid
+
+If you want to use something from another mod. Say you want to add a stat buff...
+you have to find your targets instanceid and ask for them as a IStatUser.
+from there you can get a handler and do what ever you want
+
+2 diverging forms.....
+Stat is a catalog putting all the work on the handler The handler is the instance
+Jobs is a manager keeping track of the instancest as they run
+
+
+Difference between link and patch (need better names)
+Patch: is when you are working with someone elses class. Like trying to tell the admin that all buildings and pops are now water users.
+Link: is when you are providing an interface to future poeple. Like saying "Here, this is what you need to do to be a water user".
+
