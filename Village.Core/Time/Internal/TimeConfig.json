@@ -1,0 +1,61 @@
+{
+  "LongPrintFormat": "{Hour}:{Minute}:{Second}",
+  "TimeUnits": [
+    {
+      "UnitName": "SEC",
+      "UnitLabel": "Second",
+      "ParentUnit": "MIN",
+      "SubscribeToUnit": "",
+      "Intervals": [ 60 ],
+      "IntervalLabels": []
+    },
+    {
+      "UnitName": "MIN",
+      "UnitLabel": "Minute",
+      "ParentUnit": "HOUR",
+      "SubscribeToUnit": "",
+      "Intervals": [ 60 ],
+      "IntervalLabels": []
+    },
+    {
+      "UnitName": "HOUR",
+      "UnitLabel": "Hour",
+      "ParentUnit": "DAY",
+      "SubscribeToUnit": "",
+      "Intervals": [ 60 ],
+      "IntervalLabels": []
+    },
+    {
+      "UnitName": "DAY",
+      "UnitLabel": "Day",
+      "ParentUnit": "SEAS",
+      "SubscribeToUnit": "",
+      "Intervals": [ 24 ],
+      "IntervalLabels": []
+    },
+    {
+      "UnitName": "WEEK",
+      "UnitLabel": "Week",
+      "ParentUnit": "",
+      "SubscribeToUnit": "DAY",
+      "Intervals": [ 0,0,0,0,0,0,0 ],
+      "IntervalLabels": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
+    },
+    {
+      "UnitName": "SEAS",
+      "UnitLabel": "Season",
+      "ParentUnit": "YEAR",
+      "SubscribeToUnit": "",
+      "Intervals": [ 28, 28, 28, 28 ],
+      "IntervalLabels": [ "Spring", "Summer", "Fall", "Winter" ]
+    },
+    {
+      "UnitName": "YEAR",
+      "UnitLabel": "Year",
+      "ParentUnit": "",
+      "SubscribeToUnit": "",
+      "Intervals": [ 1 ],
+      "IntervalLabels": []
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "MaxHeight": 10,
+  "MaxWidth": 10,
+  "MinHeight": -10,
+  "MinWidth": -10,
+  "Layers": [
+    {
+      "Index": 0,
+      "LayerName": "GROUND",
+      "Label": "Ground"
+    },
+    {
+      "Index": 0,
+      "LayerName": "GROUND",
+      "Label": "Ground"
+    }
+  ]
+}

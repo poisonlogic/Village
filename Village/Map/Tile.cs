@@ -14,7 +14,7 @@ namespace Village.Map
         public Tile(int index, VillageMap map)
         {
             this.Map = map;
-            this.Id = Id;
+            this.Id = index;
             this.X = index % map.Width;
             this.Y = (int)Math.Floor((decimal)index / (decimal)map.Width);
         }

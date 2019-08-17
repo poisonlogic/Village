@@ -17,12 +17,8 @@ namespace DeskTopVillage.GameClasses
         public static int Tile_Height = 64;
         public static int Scaled_Width { get { return (int)(Tile_Width * Zoom); } }
         public static int Scaled_Height { get { return (int)(Tile_Height * Zoom); } }
-
-        public static MapStructDef DebugDef;
-
+        
         public static decimal Zoom = 1;
-        public static VillageMap Map;
-        public static MapStructManager<MapStructDef> MapStructManager;
 
         private static Dictionary<Tile, Texture2D> _tileGraphics;
         private static Texture2D defaultGraphic;
