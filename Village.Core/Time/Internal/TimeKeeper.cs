@@ -32,6 +32,9 @@ namespace Village.Core.Time.Internal
                 unit.Subscribers = units.Values.Where(x => x.Config.SubscribeToUnit.Equals(unit.Config.UnitName));
                 if (!string.IsNullOrEmpty(unit.Config.ParentUnit))
                 {
+                    if (!units.ContainsKey(unit.Config.ParentUnit))
+                        throw new Exception($"Failed to find parent '{unit.Config.ParentUnit}' for time unit '{unit.Config.UnitName}'.");
+
                     unit.ParentUnit = units[unit.Config.ParentUnit];
                     units[unit.Config.ParentUnit].IsBase = false;
                 }
@@ -48,12 +51,14 @@ namespace Village.Core.Time.Internal
                 sub.Tick();
         }
 
-        public string Print()
+        public string Print(string format)
         {
-            var sb = new StringBuilder();
-            sb.Append($"{_units["SEC"].GetLabel()}\t:\t{_units["MIN"].GetLabel()}\t:\t{_units["HOUR"].GetLabel()}\t:\t");
-            sb.Append($"{_units["DAY"].GetLabel()}\t:\t{_units["WEEK"].GetLabel()}\t:\t{_units["SEAS"].GetLabel()}");
-            return sb.ToString();
+            var tempString = format;
+            foreach(var unit in _units)
+            {
+                tempString = tempString.Replace("[" + unit.Key + "]", unit.Value.GetLabel());
+            }
+            return tempString;
         }
     }
 }

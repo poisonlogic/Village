@@ -7,7 +7,9 @@
       "ParentUnit": "MIN",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
-      "IntervalLabels": []
+      "IntervalLabels": [],
+      "StringFormating": "D2",
+      "AddOne": false
     },
     {
       "UnitName": "MIN",
@@ -15,7 +17,9 @@
       "ParentUnit": "HOUR",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
-      "IntervalLabels": []
+      "IntervalLabels": [],
+      "StringFormating": "D2",
+      "AddOne": false
     },
     {
       "UnitName": "HOUR",
@@ -23,7 +27,9 @@
       "ParentUnit": "DAY",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
-      "IntervalLabels": []
+      "IntervalLabels": [],
+      "StringFormating": "D2",
+      "AddOne": false
     },
     {
       "UnitName": "DAY",
@@ -31,7 +37,9 @@
       "ParentUnit": "SEAS",
       "SubscribeToUnit": "",
       "Intervals": [ 24 ],
-      "IntervalLabels": []
+      "IntervalLabels": [],
+      "StringFormating": "",
+      "AddOne": true
     },
     {
       "UnitName": "WEEK",
@@ -39,7 +47,9 @@
       "ParentUnit": "",
       "SubscribeToUnit": "DAY",
       "Intervals": [ 0,0,0,0,0,0,0 ],
-      "IntervalLabels": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
+      "IntervalLabels": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
+      "StringFormating": "",
+      "AddOne": false
     },
     {
       "UnitName": "SEAS",
@@ -47,7 +57,9 @@
       "ParentUnit": "YEAR",
       "SubscribeToUnit": "",
       "Intervals": [ 28, 28, 28, 28 ],
-      "IntervalLabels": [ "Spring", "Summer", "Fall", "Winter" ]
+      "IntervalLabels": [ "Spring", "Summer", "Fall", "Winter" ],
+      "StringFormating": "",
+      "AddOne": false
     },
     {
       "UnitName": "YEAR",
@@ -55,7 +67,9 @@
       "ParentUnit": "",
       "SubscribeToUnit": "",
       "Intervals": [ 1 ],
-      "IntervalLabels": []
+      "IntervalLabels": [],
+      "StringFormating": "D4",
+      "AddOne": false
     }
   ]
 }

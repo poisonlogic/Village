@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Village.Core.Map.MapStructure;
 
 namespace Village.Core.Map
 {
@@ -15,8 +16,10 @@ namespace Village.Core.Map
 
         void CreateEmptyLayer(string LayerName);
         IMapLayer GetLayer(string LayerName);
-        void AddMapObject(IMapObject mapObject);
-        void RemoveMapObject(IMapObject mapObject);
+        IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, MapSpot mapSpot);
+        IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, int x, int y);
+        bool AddMapStruct(string LayerName, IMapStructure mapStruct);
+        void RemoveMapStruct(IMapStructure mapStruct);
 
     }
 }

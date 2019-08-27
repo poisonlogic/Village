@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Village.Core.Map.Internal
@@ -18,16 +19,19 @@ namespace Village.Core.Map.Internal
 
         public IEnumerable<IMapTile> Tiles()
         {
+            if (_tiles == null)
+                throw new Exception($"Tiles are null for layer '{LayerName}'");
+
             for (int y = MinHeight; y < MaxHeight; y++)
                 for (int x = MinWidth; x < MaxWidth; x++)
                     yield return _tiles[x - MinWidth, y - MinHeight];
         }
 
-        public MapLayer(string layerName, IMapController controller, IMapTile[,] tiles)
+        public MapLayer(string layerName, IMapController controller, IMapTile[,] mapTiles)
         {
-            Controller = controller;
+            Controller = controller ?? throw new ArgumentNullException(nameof(controller));
             LayerName = layerName;
-            _tiles = tiles;
+            _tiles = mapTiles ?? throw new ArgumentNullException(nameof(mapTiles));
         }
 
         public IMapTile GetTileAt(int x, int y)
@@ -36,12 +40,30 @@ namespace Village.Core.Map.Internal
                 return null;
 
             else
-                return _tiles[x,y];
+                return _tiles[x - MinWidth, y - MinHeight];
+        }
+
+        public IMapTile GetTileAt(MapSpot spot)
+        {
+            return GetTileAt(spot.X, spot.Y);
+        }
+
+        public IEnumerable<IMapTile> GetTiles(IEnumerable<MapSpot> mapSpots)
+        {
+            var outList = new List<IMapTile>();
+            foreach (var spot in mapSpots)
+                outList.Add(GetTileAt(spot));
+            return outList;
+        }
+
+        public bool IsSpotFree(MapSpot spot)
+        {
+            return IsTileFree(spot.X, spot.Y);
         }
 
         public bool IsTileFree(int x, int y)
         {
-            throw new NotImplementedException();
+            return IsValidPosition(x, y);
         }
 
         public bool IsValidPosition(int x, int y)
@@ -49,13 +71,23 @@ namespace Village.Core.Map.Internal
             if (Controller == null)
                 throw new Exception($"MapLayer {LayerName} has null controller");
 
-            if (x < 0 || x >= Controller.MaxWidth)
+            if (x < MinWidth || x >= MaxWidth)
                 return false;
 
-            if (y < 0 || y >= Controller.MaxHeight)
+            if (y < MinWidth || y >= MaxHeight)
                 return false;
 
             return true;
+        }
+
+        public bool IsValidPosition(MapSpot spot)
+        {
+            return IsValidPosition(spot.X, spot.Y);
+        }
+
+        public bool AreSpotsClear(IEnumerable<MapSpot> spots)
+        {
+            return spots.Where(x => !IsSpotFree(x)).Any();
         }
     }
 }

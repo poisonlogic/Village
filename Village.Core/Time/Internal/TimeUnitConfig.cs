@@ -12,5 +12,7 @@ namespace Village.Core.Time.Internal
         public string Label;
         public int[] Intervals; // Number of full cycles that the lower unit should make before this unit ticks
         public string[] IntervalLabels;
+        public string StringFormating;
+        public bool AddOne;
     }
 }

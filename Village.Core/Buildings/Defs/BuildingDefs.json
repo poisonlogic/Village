@@ -1,0 +1,24 @@
+[
+        {
+            "DefClassName":"Village.Core.Buildings.Defs.AppleTreeDef",
+            "InstClassName":"Village.Core.Buildings.Defs.FruitTree",
+            "DefName": "APPLE_TREE",
+            "Label": "Apple Tree",
+            "FootPrint":[[0,0]],
+            "FillMapSpots": true,
+            "GrowTime": 1000,
+            "Width": 1,
+            "Height": 1
+        },
+        {
+            "DefClassName":"Village.Core.Buildings.Defs.AppleTreeDef",
+            "InstClassName":"Village.Core.Buildings.Defs.AppleTree",
+            "DefName": "APPLE_TREE2",
+            "Label": "Apple Tree",
+            "FillMapSpots": true,
+            "FootPrint":[[0,0]],
+            "GrowTime": 1000,
+            "Width": 1,
+            "Height": 1
+        }
+]

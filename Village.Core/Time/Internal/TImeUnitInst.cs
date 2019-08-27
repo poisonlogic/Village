@@ -6,6 +6,8 @@ namespace Village.Core.Time.Internal
 {
     internal class TimeUnitInst
     {
+        private string _cachedStringValue;
+
         public TimeUnitConfig Config { get; }
         public int Value { get; set; } 
         public int IntervalIndex { get; set; }
@@ -30,19 +32,29 @@ namespace Village.Core.Time.Internal
 
         public string GetLabel()
         {
+            if (!string.IsNullOrEmpty(_cachedStringValue))
+                return _cachedStringValue;
+
             if(Config.IntervalLabels.Length > IntervalIndex)
             {
-                return Config.IntervalLabels[IntervalIndex];
+                _cachedStringValue = Config.IntervalLabels[IntervalIndex];
             }
             else
             {
-                return Value.ToString();
+                var tempVal = Value + (Config.AddOne ? 1 : 0);
+                if (string.IsNullOrEmpty(Config.StringFormating))
+                    _cachedStringValue = tempVal.ToString();
+                else
+                    _cachedStringValue = tempVal.ToString(Config.StringFormating);
             }
+
+            return _cachedStringValue;
         }
 
         public bool Tick()
         {
             IntervalIndex++;
+            _cachedStringValue = null;
             if(IntervalIndex >= Config.Intervals.Length)
             {
                 IntervalIndex = 0;

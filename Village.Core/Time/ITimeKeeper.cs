@@ -7,6 +7,6 @@ namespace Village.Core.Time
     public interface ITimeKeeper
     {
         void Tick();
-        string Print();
+        string Print(string format);
     }
 }

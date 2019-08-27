@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Village.Core.Map;
 
@@ -26,7 +27,13 @@ namespace Village.ConsoleApp.Classes
                 else
                     Console.BackgroundColor = ConsoleColor.Cyan;
 
-                Console.Write("  ");
+                if (tile.MapStructs.Any())
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.Write("XX");
+                }
+                else
+                    Console.Write("  ");
                 if (tile.X == layer.MaxWidth - 1)
                     Console.WriteLine();
             }
