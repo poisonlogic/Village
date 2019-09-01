@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using Village.Core.Buildings;
 using Village.Core.Map.Internal;
+using Village.Core.Rendering;
 
 namespace Village.Core.Map.MapStructure
 {
-    public class BaseMapStructure : Inst, IMapStructure
+    public abstract class BaseMapStructure : Inst, IMapStructure
     {
         private MapStructDef _def;
-        private Dictionary<int[], MapSpot> _rotationMapping;
+        private Dictionary<Tuple<int, int>, MapSpot> _rotationMapping;
 
+        MapStructDef IMapStructure.Def => _def;
         public string MapLayerName { get; }
         public IMapController MapController { get; }
         public MapRotation Rotation { get; }
@@ -40,12 +42,14 @@ namespace Village.Core.Map.MapStructure
             if (print == null)
                 return null;
 
-            var sides = _def.OccupiesSides?.Where(x => x.Key[0] == print[0] && x.Key[1] == print[1]).SingleOrDefault().Value;
+            var sides = _def.OccupiesSides[print];
             if (sides == null)
                 return null;
 
             var rotated = MapStructHelper.RotateOccupiedSides(sides, Rotation).ToList();
             return rotated;
         }
+
+        public abstract ISprite GetSprite();
     }
 }

@@ -32,8 +32,15 @@ namespace Village.Core.Buildings.Internal
         {
             var def = _defs[defName];
             var building = DefLoader.CreateInstanct<IBuilding>(def, "GROUND", spot, _mapController, MapRotation.Default);
-            _mapController.AddMapStruct("GROUND", building);
+            _mapController.AddMapStructure(building);
+            _buildings.Add(building.Id, building);
             return true;
+        }
+
+        public void Update()
+        {
+            foreach (var building in _buildings.Values)
+                building.Update();
         }
     }
 }

@@ -8,6 +8,7 @@ using Village.Core;
 using Village.Core.Buildings;
 using Village.Core.Map;
 using Village.Core.Map.MapStructure;
+using Village.Core.Rendering;
 using Village.Core.Time;
 
 namespace Village.ConsoleApp
@@ -23,7 +24,7 @@ namespace Village.ConsoleApp
             {
                 Console.Clear();
                 gameMaster.Update();
-                Thread.Sleep(100);
+                Thread.Sleep(300);
             }
             Console.WriteLine("Done");
             Console.ReadLine();

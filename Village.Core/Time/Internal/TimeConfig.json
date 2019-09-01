@@ -4,9 +4,9 @@
     {
       "UnitName": "SEC",
       "UnitLabel": "Second",
-      "ParentUnit": "MIN",
+      "ChildUnit": "MIN",
       "SubscribeToUnit": "",
-      "Intervals": [ 60 ],
+      "Intervals": [ 0 ],
       "IntervalLabels": [],
       "StringFormating": "D2",
       "AddOne": false
@@ -14,7 +14,7 @@
     {
       "UnitName": "MIN",
       "UnitLabel": "Minute",
-      "ParentUnit": "HOUR",
+      "ChildUnit": "SEC",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
       "IntervalLabels": [],
@@ -24,7 +24,7 @@
     {
       "UnitName": "HOUR",
       "UnitLabel": "Hour",
-      "ParentUnit": "DAY",
+      "ChildUnit": "MIN",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
       "IntervalLabels": [],
@@ -34,7 +34,7 @@
     {
       "UnitName": "DAY",
       "UnitLabel": "Day",
-      "ParentUnit": "SEAS",
+      "ChildUnit": "",
       "SubscribeToUnit": "",
       "Intervals": [ 24 ],
       "IntervalLabels": [],
@@ -44,7 +44,7 @@
     {
       "UnitName": "WEEK",
       "UnitLabel": "Week",
-      "ParentUnit": "",
+      "ChildUnit": "",
       "SubscribeToUnit": "DAY",
       "Intervals": [ 0,0,0,0,0,0,0 ],
       "IntervalLabels": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
@@ -54,7 +54,7 @@
     {
       "UnitName": "SEAS",
       "UnitLabel": "Season",
-      "ParentUnit": "YEAR",
+      "ChildUnit": "DAY",
       "SubscribeToUnit": "",
       "Intervals": [ 28, 28, 28, 28 ],
       "IntervalLabels": [ "Spring", "Summer", "Fall", "Winter" ],
@@ -64,9 +64,9 @@
     {
       "UnitName": "YEAR",
       "UnitLabel": "Year",
-      "ParentUnit": "",
+      "ChildUnit": "SEAS",
       "SubscribeToUnit": "",
-      "Intervals": [ 1 ],
+      "Intervals": [ 4 ],
       "IntervalLabels": [],
       "StringFormating": "D4",
       "AddOne": false

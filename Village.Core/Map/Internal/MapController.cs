@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Village.Core.Map.MapStructure;
+using Village.Core.Rendering;
 
 namespace Village.Core.Map.Internal
 {
@@ -59,21 +60,7 @@ namespace Village.Core.Map.Internal
             var layer = GetLayer(LayerName);
             return layer.AreSpotsClear(footprint);
         }
-
-        public bool AddMapStruct(string layerName, IMapStructure mapStruct)
-        {
-            var layer = GetLayer(layerName);
-            if (VerifyMapStructPlacement(mapStruct, layer))
-            {
-                _mapStructs.Add(mapStruct.Id, mapStruct);
-                foreach(var spot in mapStruct.MapSpots)
-                {
-                    var tile = layer.GetTileAt(spot);
-                    tile.AddMapStruct(mapStruct.Id);
-                }
-            }
-            return false;
-        }
+        
 
         public IEnumerable<IMapStructure> GetMapStructsAt(string layerName, MapSpot mapSpot)
         {
@@ -99,26 +86,52 @@ namespace Village.Core.Map.Internal
             _mapStructs.Remove(mapStruct.Id);
         }
 
-        private bool VerifyMapStructPlacement(IMapStructure mapStruct, IMapLayer layer)
+        public bool CanAddMapStructure(string layerName, MapStructDef mapStructDef, MapSpot anchor, MapRotation rotation)
         {
+            if (mapStructDef == null) throw new ArgumentNullException(nameof(mapStructDef));
+            if (anchor == null) throw new ArgumentNullException(nameof(anchor));
 
-            foreach (var spot in mapStruct.MapSpots)
+            var printDic = MapStructHelper.FootprintToMapSpotsDictionary(mapStructDef.Footprint, rotation, anchor);
+            var layer = GetLayer(layerName);
+            if (layer == null)
+                throw new Exception($"No layer found with name '{layerName}'.");
+
+            foreach (var print in printDic)
             {
-                if (mapStruct.FillMapSpots)
+                var spot = print.Value + anchor;
+                if (mapStructDef.FillMapSpots)
                 {
                     if (GetMapStructsAt(layer.LayerName, spot).Any())
                         return false;
                 }
                 else
                 {
-                    var sides = mapStruct.GetOccupiedSides(spot);
+                    var sides = MapStructHelper.RotateOccupiedSides(mapStructDef.OccupiesSides[print.Key], rotation);
                     var curt = GetMapStructsAt(layer.LayerName, spot).SelectMany(x => x.GetOccupiedSides(spot));
 
-                    if (curt.Intersect(sides).Any())
+                    if (sides != null && curt != null && curt.Intersect(sides).Any())
                         return false;
                 }
             }
             return true;
+        }
+
+        public void AddMapStructure(IMapStructure mapStructure)
+        {
+            if (mapStructure == null)
+                throw new ArgumentNullException(nameof(mapStructure));
+
+
+            if (CanAddMapStructure(mapStructure.MapLayerName, mapStructure.Def, mapStructure.Anchor, mapStructure.Rotation))
+            {
+                var layer = GetLayer(mapStructure.MapLayerName);
+                _mapStructs.Add(mapStructure.Id, mapStructure);
+                foreach (var spot in mapStructure.MapSpots)
+                {
+                    var tile = layer.GetTileAt(spot);
+                    tile.AddMapStruct(mapStructure.Id);
+                }
+            }
         }
     }
 }

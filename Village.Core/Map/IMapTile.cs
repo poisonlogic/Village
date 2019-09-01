@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Village.Core.Map.MapStructure;
+using Village.Core.Rendering;
 
 namespace Village.Core.Map
 {

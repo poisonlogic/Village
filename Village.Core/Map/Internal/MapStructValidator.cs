@@ -48,17 +48,19 @@ namespace Village.Core.Map.Internal
 
         private static bool ValidateSides(MapStructDef def)
         {
-            foreach(var key in def.OccupiesSides.Keys)
-            {
-                if(key.Length != 2)
-                    throw new Exception($"Malformed OccupiesSides in MapStructDef '{def.DefName}'. One or more keys are in the format '[x,y]'.");
-            }
+            // From when it was Dictionary< int[,] XXX >
+            //foreach(var key in def.OccupiesSides.Keys)
+            //{
+            //    if(key.Length != 2)
+            //        throw new Exception($"Malformed OccupiesSides in MapStructDef '{def.DefName}'. One or more keys are in the format '[x,y]'.");
+            //}
 
             foreach (var print in def.Footprint)
             {
-                if (!def.OccupiesSides.ContainsKey(print))
+                var tup = new Tuple<int, int>(print[0], print[1]);
+                if (!def.OccupiesSides.ContainsKey(tup))
                     throw new Exception($"Occupied sides not defined for spot [{print[0]},{print[1]}].");
-                if(def.OccupiesSides[print] == null || def.OccupiesSides[print].Count == 0)
+                if(def.OccupiesSides[tup] == null || def.OccupiesSides[tup].Count == 0)
                     throw new Exception($"Occupied sides for spot [{print[0]},{print[1]}] is null or empty. All spots but define at least one side.");
 
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Village.Core.Map.MapStructure;
+using Village.Core.Rendering;
 
 namespace Village.Core.Map
 {
@@ -18,7 +19,8 @@ namespace Village.Core.Map
         IMapLayer GetLayer(string LayerName);
         IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, MapSpot mapSpot);
         IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, int x, int y);
-        bool AddMapStruct(string LayerName, IMapStructure mapStruct);
+        bool CanAddMapStructure(string LayerName, MapStructDef mapStruct, MapSpot spot, MapRotation rotation);
+        void AddMapStructure(IMapStructure mapStructure);
         void RemoveMapStruct(IMapStructure mapStruct);
 
     }

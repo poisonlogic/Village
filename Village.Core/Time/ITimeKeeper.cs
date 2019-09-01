@@ -8,5 +8,9 @@ namespace Village.Core.Time
     {
         void Tick();
         string Print(string format);
+        ITime Time { get; }
+        Dictionary<string, int> ProjectTime(Dictionary<string, int> values);
+        void AddTime(Dictionary<string, int> values);
+        int IsItTime(Dictionary<string, int> values);
     }
 }

@@ -10,6 +10,6 @@ namespace Village.Core.Map.MapStructure
         public int Height;
         public bool FillMapSpots;
         public IEnumerable<int[]> Footprint;
-        public Dictionary<int[], List<MapStructSide>> OccupiesSides;
+        public Dictionary<Tuple<int, int>, List<MapStructSide>> OccupiesSides;
     }
 }

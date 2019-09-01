@@ -31,16 +31,16 @@ namespace Village.Core.Map.MapStructure
             }
         }
         
-        public static Dictionary<int[], MapSpot> FootprintToMapSpotsDictionary(IEnumerable<int[]> footprint, MapRotation rotation, MapSpot anchor)
+        public static Dictionary<Tuple<int, int>, MapSpot> FootprintToMapSpotsDictionary(IEnumerable<int[]> footprint, MapRotation rotation, MapSpot anchor)
         {
             if (footprint.Any(print => print.Length != 2))
                 throw new Exception($"Malformed footprint at least one print is not int[2]");
 
             var rotated = RotateFootprint(footprint, rotation);
 
-            var dic = new Dictionary<int[], MapSpot>();
+            var dic = new Dictionary<Tuple<int, int>, MapSpot>();
             foreach (var print in rotated)
-                dic.Add(print, new MapSpot(anchor.X + print[0], anchor.Y + print[1]));
+                dic.Add(new Tuple<int, int>(print[0], print[1]), new MapSpot(anchor.X + print[0], anchor.Y + print[1]));
 
             return dic;
         }
