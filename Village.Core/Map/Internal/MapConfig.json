@@ -1,8 +1,8 @@
 {
-  "MaxHeight": 10,
-  "MaxWidth": 10,
-  "MinHeight": -10,
-  "MinWidth": -10,
+  "MaxHeight": 5,
+  "MaxWidth": 5,
+  "MinHeight": -5,
+  "MinWidth": -5,
   "Layers": [
     {
       "Index": 0,

@@ -36,7 +36,12 @@ namespace Village.Core.Map.Internal
             var tiles = new MapTile[MaxWidth - MinWidth, MaxHeight - MinWidth];
             for (int x = MinWidth; x < MaxHeight; x++)
                 for (int y = MinHeight; y < MaxHeight; y++)
-                    tiles[x - MinWidth, y - MinHeight] = new MapTile(x, y, ran.Next(2) > 0 ? TileType.Grass : TileType.Water, "GROUND");
+                {
+                    var type = ran.Next(2) > 0 ? TileType.Grass : TileType.Water;
+                    if (Math.Abs(x) + Math.Abs(y) < 4)
+                        type = TileType.Grass;
+                    tiles[x - MinWidth, y - MinHeight] = new MapTile(x, y, type, "GROUND");
+                }
             var layer = new MapLayer("GROUND", this, tiles);
             _layers.Add("GROUND", layer);
         }

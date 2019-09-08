@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Village.Core.Map.Internal;
+using Village.Core.Items.Internal;
 
-namespace Village.Core.Map
+namespace Village.Core.Items
 {
     public static class ServiceInjector
     {
@@ -13,9 +10,8 @@ namespace Village.Core.Map
             serviceCollection
                 //.AddTransient<IMapLayer, MapLayer>()
                 //.AddTransient<IMapTile, MapTile>()
-                .AddSingleton<IMapController, MapController>();
-
-            serviceCollection.AddTransient<IController, MapController>();
+                .AddSingleton<IItemController, ItemController>();
+            serviceCollection.AddTransient<IController, ItemController>();
             return serviceCollection;
         }
     }

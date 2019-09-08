@@ -12,7 +12,7 @@ namespace Village.Core.Time
         {
             serviceCollection
                 .AddTransient<ITimeKeeper, TimeKeeper>();
-
+            serviceCollection.AddTransient<IController, TimeKeeper>();
             return serviceCollection;
         }
     }

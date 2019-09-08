@@ -7,16 +7,14 @@ namespace Village.Core.Buildings.Internal
 {
     internal class BuildingController : IBuildingController
     {
-        private IMapController _mapController;
+        private IMapController _mapController => GameMaster.Instance.GetController<IMapController>();
         private Dictionary<string, BuildingDef> _defs;
         private Dictionary<string, IBuilding> _buildings;
 
         public List<IBuilding> AllBuildings => throw new NotImplementedException();
 
-        public BuildingController(IMapController mapController)
+        public BuildingController()
         {
-            _mapController = mapController ?? throw new ArgumentNullException(nameof(mapController));
-
             _defs = DefLoader.LoadDefCatalog<BuildingDef>("Village.Core.Buildings.Defs.BuildingDefs.json");
             _buildings = new Dictionary<string, IBuilding>();
         }

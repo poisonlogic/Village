@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Village.Core.Time
 {
-    public interface ITimeKeeper
+    public interface ITimeKeeper : IController
     {
         void Tick();
         string Print(string format);

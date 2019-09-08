@@ -14,6 +14,7 @@ namespace Village.Core.Buildings
             serviceCollection
                 .AddTransient<IBuildingController, BuildingController>();
 
+            serviceCollection.AddTransient<IController, BuildingController>();
             return serviceCollection;
         }
     }

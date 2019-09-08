@@ -1,0 +1,13 @@
+[
+    {
+        "DefName":"APPLE",
+        "DefClassName":"Village.Core.Items.ItemDef",
+        "InstClassName":"Village.Core.Items.DefaultItem",
+
+        "IsDistnct":false,
+        "StackLimit":10,
+        "Taxonomy":"Food/Fruit",
+        "BaseValue":1,
+        "BaseMass":1
+    }
+]

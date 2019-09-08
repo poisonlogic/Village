@@ -48,11 +48,29 @@ namespace Village.Core
                 if (!type.IsSubclassOf(typeof(Inst)))
                     throw new Exception($"Stated type name '{def.InstClassName}' does not inherent from type Init.");
 
-                var constructors = type.GetConstructors();
 
-                var temp = args.Prepend(def).ToArray();
+                var constructors = type.GetConstructors().ToList();
+                if (constructors.Count() > 1)
+                    throw new Exception($"InstClass '{def.InstClassName}' has more than one constructor. All Instance classes must have only one contructor.");
 
-                var inst = (T)Activator.CreateInstance(type, args: temp);
+                var constructor = constructors.First();
+                var constructorParameters = constructor.GetParameters();
+                var tempParms = args.Prepend(def).ToArray();
+
+                if (constructorParameters.Count() != tempParms.Count())
+                    throw new Exception($"Constructor arguments for class '{def.InstClassName}' does not match the arguments provided. Arguments must be provided to CreateInstance<T> in the same order as the constuctor.");
+
+                for (int n = 0; n < constructorParameters.Count(); n++)
+                {
+                    var parm = constructorParameters[n];
+                    var conParmType = parm.ParameterType;
+                    var tempParmType = tempParms[n].GetType();
+
+                    if (!conParmType.IsAssignableFrom(tempParmType)) 
+                        throw new Exception($"Constructor arguments for class '{def.InstClassName}' does not match the arguments provided. '{conParmType.Name}' is not assignable from '{tempParmType.Name}'. Arguments must be provided to CreateInstance<T> in the same order as the constuctor.");
+                }
+
+                var inst = (T)Activator.CreateInstance(type, args: tempParms);
 
                 return inst;
             }

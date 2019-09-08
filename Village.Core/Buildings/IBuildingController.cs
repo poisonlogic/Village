@@ -5,7 +5,7 @@ using Village.Core.Map;
 
 namespace Village.Core.Buildings
 {
-    public interface IBuildingController
+    public interface IBuildingController : IController
     {
         List<IBuilding> AllBuildings { get; }
         bool LoadBuildings();

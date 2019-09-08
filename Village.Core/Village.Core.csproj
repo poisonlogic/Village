@@ -6,12 +6,14 @@
 
   <ItemGroup>
     <None Remove="Buildings\Defs\BuildingDefs.json" />
+    <None Remove="Items\Defs\ItemDefs.json" />
     <None Remove="Map\Internal\MapConfig.json" />
     <None Remove="Time\Internal\TimeConfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Buildings\Defs\BuildingDefs.json" />
+    <EmbeddedResource Include="Items\Defs\ItemDefs.json" />
     <EmbeddedResource Include="Map\Internal\MapConfig.json" />
     <EmbeddedResource Include="Time\Internal\TimeConfig.json" />
   </ItemGroup>

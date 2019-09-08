@@ -6,7 +6,7 @@ using Village.Core.Rendering;
 
 namespace Village.Core.Map
 {
-    public interface IMapController
+    public interface IMapController : IController
     {
         int MaxWidth { get; }
         int MaxHeight { get; }

@@ -24,7 +24,7 @@ namespace Village.ConsoleApp
             {
                 Console.Clear();
                 gameMaster.Update();
-                Thread.Sleep(300);
+                Thread.Sleep(100);
             }
             Console.WriteLine("Done");
             Console.ReadLine();
@@ -48,6 +48,8 @@ namespace Village.ConsoleApp
             Village.Core.Map.ServiceInjector.AddServices(serviceCollection);
             Village.Core.Time.ServiceInjector.AddServices(serviceCollection);
             Village.Core.Buildings.ServiceInjector.AddServices(serviceCollection);
+            Village.Core.Items.ServiceInjector.AddServices(serviceCollection);
+
             return serviceCollection.BuildServiceProvider();
         }
     }
