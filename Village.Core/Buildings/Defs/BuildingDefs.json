@@ -20,5 +20,24 @@
             "GrowTime": 1000,
             "Width": 1,
             "Height": 1
+        },
+        {
+            "DefClassName":"Village.Core.Buildings.Defs.StorageContainerDef",
+            "InstClassName":"Village.Core.Buildings.Defs.BaseStorageContainer",
+            "DefName": "STORAGE_CHEST",
+            "Label": "Chest",
+            "FillMapSpots": true,
+            "FootPrint":[[0,0]],
+            "Width": 1,
+            "Height": 1,
+            "InventoryConfig":
+            {
+                "CanReceiveItems": true,
+                "CanProvideItems": true,
+                "RespectsStackLimit": false,
+                "HasMassLimit": true,
+                "MaxMass": 2
+            }
         }
+        
 ]

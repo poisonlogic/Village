@@ -6,17 +6,19 @@ namespace Village.Core.Items
 {
     public interface IInventory
     {
-        bool RespectsStackLimit { get; }
-        bool HasMassLimit { get; }
-        int CurrentMass { get; }
-        int MaxMass { get; }
-
+        string InventoryId { get; }
+        InventoryConfig Config { get; }
+        decimal GetCurrentMass();
+        bool IsEmpty { get; }
         IItemController Controller { get; }
         IInventoryUser GetInventoryUser();
         IEnumerable<IItemInstance> GetAllHeldItems();
         bool HasItemOfDef(string itemDef);
+        bool HasItem(string itemId);
         IItemInstance GetItem(string itemId);
-        bool CanAcceptItem(IItemInstance id);
+        bool CanAcceptItem(IItemInstance item);
+
+        IEnumerable<IItemInstance> GetItemsNeedHauling();
 
     }
 }

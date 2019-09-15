@@ -14,6 +14,7 @@ namespace Village.Core.Items.Internal
 
         public IItemController ItemController { get; }
         public string ItemId { get; }
+        public string Label => _def.Label + (_stackCount > 1 ? $" ({_stackCount})" : "");
         public ItemDef ItemDef => _def;
         public bool IsDistinct => _def.IsDistnct;
         public int Count => _stackCount;
@@ -96,7 +97,7 @@ namespace Village.Core.Items.Internal
 
         public virtual decimal GetMass()
         {
-            return ItemDef.BaseMass;
+            return ItemDef.BaseMass * _stackCount;
         }
 
         public IInventory InInventoryOf()

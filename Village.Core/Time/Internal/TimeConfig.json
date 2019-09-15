@@ -47,7 +47,7 @@
       "ChildUnit": "",
       "SubscribeToUnit": "DAY",
       "Intervals": [ 0,0,0,0,0,0,0 ],
-      "IntervalLabels": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
+      "IntervalLabels": [ "Monday__","Tuesday_","Wedneday","Thursday","Friday__","Saturday","Sunday__" ],
       "StringFormating": "",
       "AddOne": false
     },

@@ -19,7 +19,7 @@ namespace Village.Core.Map
         IMapLayer GetLayer(string LayerName);
         IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, MapSpot mapSpot);
         IEnumerable<IMapStructure> GetMapStructsAt(string LayerName, int x, int y);
-        bool CanAddMapStructure(string LayerName, MapStructDef mapStruct, MapSpot spot, MapRotation rotation);
+        bool CanAddMapStructure(string LayerName, MapStructDef mapStruct, MapSpot anchor, MapRotation rotation);
         void AddMapStructure(IMapStructure mapStructure);
         void RemoveMapStruct(IMapStructure mapStruct);
 

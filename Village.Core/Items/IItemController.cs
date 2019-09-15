@@ -20,11 +20,21 @@ namespace Village.Core.Items
      *      Properties could (would be cool in the future) be highly specific to one instance (Nutrition per apple based on tree's values)
      *      Gives a lot less weight to IItem.
      *      Going back to dispersed with custom merge logic;
+     *      
+     *  _____ CURRENT STATE ________
+     *  Item instance represents one type of item definned by def and properties
+     *  IItemInstance holds a count of how many of that Item there are.
+     *  IItemInstances can be merged and split
+     *  All Items must exists within an inventory
      */
     public interface IItemController : IController
     {
+        IEnumerable<IInventory> AllInventories { get; }
         IItemInstance GetItem(string id);
         ItemDef GetDef(string defName);
+
+        void RegisterNewInventory(IInventory inventory);
+        IInventory FindInventory(string inventoryId);
 
         IItemInstance CreateNewItem(ItemDef itemDef, IInventory inventory);
         IItemInstance CreateNewItems(ItemDef itemDef, IInventory inventory, int count);
@@ -39,5 +49,8 @@ namespace Village.Core.Items
         // Consumed means that item or number of items will be destoryed
         bool CanAllItemBeConsumedFromInventory(string id, IInventory inventory);
         bool CanItemBeConsumedFromInventory(string id, IInventory inventory, int count);
+
+        IEnumerable<IItemInstance> FindAllItemsNeedHauling();
+        IEnumerable<IInventory> FindHaulDestinationForItem(IItemInstance item);
     }
 }

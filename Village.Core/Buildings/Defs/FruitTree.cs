@@ -19,17 +19,26 @@ namespace Village.Core.Buildings.Defs
 
         private ITimeKeeper _timeKeeper;
         private Dictionary<string, int> _finishDate;
-        public FruitTree( BuildingDef def, string layerName, MapSpot anchor, IMapController controller, MapRotation rotation) : base(layerName, def, anchor, controller, rotation)
+        public FruitTree( BuildingDef def, string layerName, MapSpot anchor, IMapController controller, MapRotation rotation) : base(def, layerName, anchor, controller, rotation)
         {
             _stageLengths = new List<Dictionary<string, int>>();
             _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
             _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
             _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
 
+            var outputConfif = new InventoryConfig()
+            {
+                CanProvideItems = true,
+                CanReceiveItems = false,
+                HasMassLimit = false,
+                MaxMass = -1,
+                RespectsStackLimit = false
+            };
+
             var timeKeeper = GameMaster.Instance.GetController<ITimeKeeper>();
             _timeKeeper = timeKeeper;
             _finishDate = timeKeeper.ProjectTime(_stageLengths[0]);
-            _outputInventory = new BaseInventory(GameMaster.Instance.GetController<IItemController>(), this);
+            _outputInventory = new BaseInventory(GameMaster.Instance.GetController<IItemController>(), this, outputConfif);
         }
         
         IInventory IInventoryUser.AllInventories => throw new NotImplementedException();
@@ -58,6 +67,12 @@ namespace Village.Core.Buildings.Defs
             if(_growthStage == 3)
             {
                 ProduceApple();
+                _growthStage = 4;
+            }
+            if(_growthStage == 4 && _outputInventory.IsEmpty)
+            {
+                _growthStage = 2;
+                _finishDate = _timeKeeper.ProjectTime(_stageLengths[_growthStage]);
             }
         }
 

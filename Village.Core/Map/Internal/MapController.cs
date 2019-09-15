@@ -103,7 +103,7 @@ namespace Village.Core.Map.Internal
 
             foreach (var print in printDic)
             {
-                var spot = print.Value + anchor;
+                var spot = print.Value;
                 if (mapStructDef.FillMapSpots)
                 {
                     if (GetMapStructsAt(layer.LayerName, spot).Any())
@@ -127,7 +127,7 @@ namespace Village.Core.Map.Internal
                 throw new ArgumentNullException(nameof(mapStructure));
 
 
-            if (CanAddMapStructure(mapStructure.MapLayerName, mapStructure.Def, mapStructure.Anchor, mapStructure.Rotation))
+            if (CanAddMapStructure(mapStructure.MapLayerName, mapStructure.MapStructDef, mapStructure.Anchor, mapStructure.Rotation))
             {
                 var layer = GetLayer(mapStructure.MapLayerName);
                 _mapStructs.Add(mapStructure.Id, mapStructure);
@@ -136,6 +136,10 @@ namespace Village.Core.Map.Internal
                     var tile = layer.GetTileAt(spot);
                     tile.AddMapStruct(mapStructure.Id);
                 }
+            }
+            else
+            {
+                throw new Exception("Failed to add map struct. CanAddMapStructure should have been called first.");
             }
         }
     }

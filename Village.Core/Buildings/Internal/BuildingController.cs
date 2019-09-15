@@ -26,12 +26,15 @@ namespace Village.Core.Buildings.Internal
             return true;
         }
 
-        public bool AddBuilding(MapSpot spot, string defName)
+        public bool TryAddBuilding(MapSpot anchor, string defName)
         {
             var def = _defs[defName];
-            var building = DefLoader.CreateInstanct<IBuilding>(def, "GROUND", spot, _mapController, MapRotation.Default);
-            _mapController.AddMapStructure(building);
-            _buildings.Add(building.Id, building);
+            var building = DefLoader.CreateInstanct<IBuilding>(def, "GROUND", anchor, _mapController, MapRotation.Default);
+            if (_mapController.CanAddMapStructure(building.MapLayerName, building.MapStructDef, anchor, building.Rotation))
+            {
+                _mapController.AddMapStructure(building);
+                _buildings.Add(building.Id, building);
+            }
             return true;
         }
 

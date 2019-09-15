@@ -14,6 +14,7 @@ namespace Village.Core
     {
         public static GameMaster Instance;
 
+        private bool inited;
         private IFileHandler _fileHandler;
         private ILogger _logger;
         private List<IController> _controllers;
@@ -29,20 +30,50 @@ namespace Village.Core
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _controllers = controllers?.ToList() ?? throw new ArgumentNullException(nameof(controllers));
             _timeKeeper = GetController<ITimeKeeper>();
-            //_mapController = mapController ?? throw new ArgumentNullException(nameof(mapController));
-            //_timeKeeper = timeKeeper ?? throw new ArgumentNullException(nameof(timeKeeper));
-            //_buildingController = buildingController ?? throw new ArgumentNullException(nameof(buildingController));
-            //_itemController = itemController ?? throw new ArgumentNullException(nameof(itemController));
-            GetController<IBuildingController>().AddBuilding(new MapSpot(0, 0), "APPLE_TREE");
+        }
+
+        public void Init()
+        {
+            inited = true;
+            GetController<IBuildingController>().TryAddBuilding(new MapSpot(0, 0), "APPLE_TREE");
+            GetController<IBuildingController>().TryAddBuilding(new MapSpot(3, 0), "STORAGE_CHEST");
+            GetController<IBuildingController>().TryAddBuilding(new MapSpot(-3, 0), "STORAGE_CHEST");
         }
 
         public void Update()
         {
+            if (!inited)
+                Init();
             _timeKeeper.Tick();
             GetController<IBuildingController>().Update();
             _logger.LogError(_timeKeeper.Print("[HOUR]:[MIN]:[SEC] [WEEK] the [DAY]th, [SEAS], [YEAR]"));
             var map = GetController<IMapController>();
             map.Renderer.DrawMap(map);
+
+            foreach(var inv in GetController<IItemController>().AllInventories)
+            {
+                _logger.LogError(inv.GetInventoryUser().Label + ": ");
+                foreach (var item in inv.GetAllHeldItems())
+                    _logger.LogError("\t" + item.Label);
+            }
+
+            DoHaulTest();
+        }
+
+        public void DoHaulTest()
+        {
+            var items = GetController<IItemController>().FindAllItemsNeedHauling().ToList();
+            if (items == null)
+                return;
+
+            foreach (var item in items)
+            {
+                foreach( var inv in GetController<IItemController>().FindHaulDestinationForItem(item))
+                {
+                    if(GetController<IItemController>().TryTransferItemToInventory(item, item.InInventoryOf(), inv))
+                        break;
+                }
+            }
         }
 
         public T GetController<T>() where T : IController

@@ -11,17 +11,26 @@ namespace Village.Core.Items.Internal
         private IInventoryUser _user;
         private List<IItemFilter> _filters;
 
-        public bool RespectsStackLimit {get;}
-        public bool HasMassLimit => throw new NotImplementedException();
-        public int CurrentMass => throw new NotImplementedException();
-        public int MaxMass => throw new NotImplementedException();
+        public string InventoryId { get; }
+        public InventoryConfig Config { get; }
         public IItemController Controller { get; }
-        
-        public BaseInventory(IItemController controller, IInventoryUser user)
+
+        public bool IsEmpty => !_items.Any();
+
+        public BaseInventory(IItemController controller, IInventoryUser user, InventoryConfig config)
         {
+            InventoryId = Guid.NewGuid().ToString();
             _items = new Dictionary<string, IItemInstance>();
             Controller = controller ?? throw new ArgumentNullException(nameof(controller));
             _user = user ?? throw new ArgumentNullException(nameof(user));
+            Config = config ?? throw new ArgumentNullException(nameof(config));
+
+            Controller.RegisterNewInventory(this);
+        }
+
+        public decimal GetCurrentMass()
+        {
+            return _items.Values.Sum(X => X.GetMass());
         }
 
         public IEnumerable<IItemInstance> GetAllHeldItems()
@@ -62,9 +71,28 @@ namespace Village.Core.Items.Internal
             throw new NotImplementedException();
         }
 
-        public bool CanAcceptItem(IItemInstance id)
+        public bool CanAcceptItem(IItemInstance item)
         {
-            throw new NotImplementedException();
+            if (Config.HasMassLimit)
+            {
+                var curtMass = GetCurrentMass();
+                var itemMass = item.GetMass();
+                if (curtMass + itemMass > Config.MaxMass)
+                    return false;
+            }
+
+            return Config.CanReceiveItems;
+
+        }
+
+        public IEnumerable<IItemInstance> GetItemsNeedHauling()
+        {
+            if (!Config.CanProvideItems)
+                return null;
+            if (!Config.CanReceiveItems)
+                return _items.Values;
+
+            return null;
         }
     }
 }

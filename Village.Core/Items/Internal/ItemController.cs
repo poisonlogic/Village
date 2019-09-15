@@ -9,6 +9,9 @@ namespace Village.Core.Items.Internal
     {
         private Dictionary<string, ItemDef> _defs;
         private Dictionary<string, IItemInstance> _items;
+        private Dictionary<string, IInventory> _inventories;
+
+        public IEnumerable<IInventory> AllInventories => _inventories.Values;
 
         public ItemDef GetDef(string defName)
         {
@@ -19,6 +22,7 @@ namespace Village.Core.Items.Internal
         {
             _defs = DefLoader.LoadDefCatalog<ItemDef>("Village.Core.Items.Defs.ItemDefs.json");
             _items = new Dictionary<string, IItemInstance>();
+            _inventories = new Dictionary<string, IInventory>();
         }
 
         public ItemDef GetDefByName(string name)
@@ -26,6 +30,20 @@ namespace Village.Core.Items.Internal
             if (!_defs.ContainsKey(name))
                 return null;
             return _defs[name];
+        }
+
+        public void RegisterNewInventory(IInventory inventory)
+        {
+            if (_inventories.ContainsKey(inventory.InventoryId))
+                throw new Exception($"Inventory '{inventory.InventoryId}' already registered.");
+            _inventories.Add(inventory.InventoryId, inventory);
+        }
+
+        public IInventory FindInventory(string id)
+        {
+            if (_inventories.ContainsKey(id))
+                return _inventories[id];
+            return null;
         }
 
         public IItemInstance CreateNewItem(ItemDef def, IInventory inventory)
@@ -56,7 +74,7 @@ namespace Village.Core.Items.Internal
             if (count >= fromItem.Count)
                 throw new Exception($"Can not transfer {count} from instance with {fromItem.Count}.");
 
-            if(toItem.InInventoryOf().RespectsStackLimit && toItem.Count + count > toItem.ItemDef.StackLimit)
+            if(toItem.InInventoryOf().Config.RespectsStackLimit && toItem.Count + count > toItem.ItemDef.StackLimit)
                 throw new Exception($"Can not transfer {count} due to stack limit.");
 
 
@@ -85,13 +103,13 @@ namespace Village.Core.Items.Internal
             if (!newInventory.CanAcceptItem(item))
                 return false; // Item not accepted by new inventory
 
-            if (newInventory.HasMassLimit && newInventory.CurrentMass + item.GetMass() > newInventory.MaxMass)
+            if (newInventory.Config.HasMassLimit && newInventory.GetCurrentMass() + item.GetMass() > newInventory.Config.MaxMass)
                 return false; // Would put contaner over mass limit
 
             if (!oldInventory.GetAllHeldItems().Where(x => x.Equals(item)).Any())
                 return false; // Item not found in in old inventory
 
-            if (newInventory.GetItem(item.Id) != null)
+            if (newInventory.HasItem(item.Id))
                 return false; // Item already in new inventory
 
             if (item.Count - count < 0)
@@ -100,12 +118,12 @@ namespace Village.Core.Items.Internal
             var same = newInventory.GetAllHeldItems().Where(x => x.IsSame(item)).SingleOrDefault();
             if(same != null)
             {
-                if (newInventory.RespectsStackLimit && same.Count + count > item.ItemDef.StackLimit)
+                if (newInventory.Config.RespectsStackLimit && same.Count + count > item.ItemDef.StackLimit)
                     return false; // Would put new inventory over stack limit
             }
             else
             {
-                if (newInventory.RespectsStackLimit && count > item.ItemDef.StackLimit)
+                if (newInventory.Config.RespectsStackLimit && count > item.ItemDef.StackLimit)
                     return false; // Would put new inventory over stack limit
             }
 
@@ -138,8 +156,18 @@ namespace Village.Core.Items.Internal
             }
             else
             {
-                TransferBetweenInstances(existingItem, item, count);
-                return true;
+                if (fullStack)
+                {
+                    (oldInventory as BaseInventory).RemoveItemInstance(item);
+                    (existingItem as BaseItem).SetCount(existingItem.Count + item.Count);
+                    DeleteItem(item.Id);
+                    return true;
+                }
+                else
+                {
+                    TransferBetweenInstances(existingItem, item, count);
+                    return true;
+                }
             }
         }
 
@@ -166,6 +194,25 @@ namespace Village.Core.Items.Internal
         public bool CanItemBeConsumedFromInventory(string id, IInventory inventory, int count)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<IItemInstance> FindAllItemsNeedHauling()
+        {
+            foreach(var inv in _inventories.Values)
+            {
+                var needsHaul = inv.GetItemsNeedHauling();
+                if (needsHaul != null)
+                    foreach (var item in needsHaul)
+                        yield return item;
+            }
+
+        }
+
+        public IEnumerable<IInventory> FindHaulDestinationForItem(IItemInstance item)
+        {
+            foreach (var inventory in _inventories.Values)
+                if (inventory.CanAcceptItem(item))
+                    yield return inventory;
         }
     }
 }

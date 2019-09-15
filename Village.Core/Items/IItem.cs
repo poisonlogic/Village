@@ -7,6 +7,7 @@ namespace Village.Core.Items
     public interface IItemInstance
     {
         string Id { get; }
+        string Label { get; }
         ItemDef ItemDef { get; }
         bool IsDistinct { get; }
         int Count { get; }

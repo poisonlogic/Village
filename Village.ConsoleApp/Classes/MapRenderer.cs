@@ -30,7 +30,7 @@ namespace Village.ConsoleApp.Classes
                     Console.BackgroundColor = TileToColor[tile.TileType];
                 else
                     Console.BackgroundColor = ConsoleColor.Cyan;
-
+                
 
                 var text = "";
                 var mapStructs = layer.Controller.GetMapStructsAt(layer.LayerName, tile.MapSpot);
@@ -44,7 +44,7 @@ namespace Village.ConsoleApp.Classes
                     if (sprite == null)
                     {
                         Console.BackgroundColor = ConsoleColor.Red;
-                        text = text +  "XX";
+                        text = text + "XX";
                     }
                     else
                     {
@@ -55,7 +55,7 @@ namespace Village.ConsoleApp.Classes
                     }
                 }
                 else
-                    text =  text + "  ";
+                    text = text + "  ";// (tile.X % 10).ToString() + (tile.Y % 10).ToString();
 
 
                 if (Console.BackgroundColor == ConsoleColor.Green)

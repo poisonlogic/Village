@@ -7,7 +7,7 @@ namespace Village.Core.Map.MapStructure
 {
     public interface IMapStructure
     {
-        MapStructDef Def { get; }
+        MapStructDef MapStructDef { get; }
         string Id { get; }
         string MapLayerName { get; }
         bool FillMapSpots { get; }

@@ -13,7 +13,7 @@ namespace Village.Core.Map.MapStructure
         private MapStructDef _def;
         private Dictionary<Tuple<int, int>, MapSpot> _rotationMapping;
 
-        MapStructDef IMapStructure.Def => _def;
+        MapStructDef IMapStructure.MapStructDef => _def;
         public string MapLayerName { get; }
         public IMapController MapController { get; }
         public MapRotation Rotation { get; }
@@ -22,7 +22,7 @@ namespace Village.Core.Map.MapStructure
         public bool IsFloorCover => throw new NotImplementedException();
         public bool FillMapSpots => _def.FillMapSpots;
 
-        public BaseMapStructure(string layerName, MapStructDef def, MapSpot anchor, IMapController controller, MapRotation rotation) : base(def)
+        public BaseMapStructure(MapStructDef def, string layerName, MapSpot anchor, IMapController controller, MapRotation rotation) : base(def)
         {
             MapController = controller ?? throw new ArgumentNullException(nameof(controller));
             Anchor = anchor ?? throw new ArgumentNullException(nameof(anchor));
