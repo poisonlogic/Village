@@ -10,6 +10,7 @@ namespace Village.Core.Items.Internal
         private Dictionary<string, ItemDef> _defs;
         private Dictionary<string, IItemInstance> _items;
         private Dictionary<string, IInventory> _inventories;
+        private Dictionary<string, IItemFilter> _filters;
 
         public IEnumerable<IInventory> AllInventories => _inventories.Values;
 
@@ -23,6 +24,7 @@ namespace Village.Core.Items.Internal
             _defs = DefLoader.LoadDefCatalog<ItemDef>("Village.Core.Items.Defs.ItemDefs.json");
             _items = new Dictionary<string, IItemInstance>();
             _inventories = new Dictionary<string, IInventory>();
+            _filters = new Dictionary<string, IItemFilter>();
         }
 
         public ItemDef GetDefByName(string name)
@@ -53,6 +55,18 @@ namespace Village.Core.Items.Internal
 
         public IItemInstance CreateNewItems(ItemDef def, IInventory inventory, int count)
         {
+            // TODO: Think about where we are allowed to create items
+            //if (!inventory.CanAcceptItemOfDef(def))
+            //    return null;
+
+            var existings = inventory.FindItemsOfDef(def.DefName);
+            if (!def.IsDistnct && existings.Any())
+            {
+                var existing = existings.First();
+                (existing as BaseItem).SetCount(existing.Count + count);
+                return existing;
+            }
+
             var item = DefLoader.CreateInstanct<IItemInstance>(def, this, inventory);
             (item as BaseItem).SetCount(count);
             _items.Add(item.Id, item);
@@ -67,6 +81,33 @@ namespace Village.Core.Items.Internal
             _items.Add(newItem.Id, newItem);
             (inventory as BaseInventory).AddItemInstance(newItem);
             return newItem;
+        }
+
+        public bool TryDestoryItems(string id, IInventory inventory, int count)
+        {
+            var item = GetItem(id);
+            if (!inventory.HasItem(item.Id))
+                throw new Exception($"Inventory '{inventory.InventoryId}' does not hold item '{id}'.");
+
+            if (count <= 0)
+                throw new Exception("Can not destory count of less than 0");
+            if (count > item.Count)
+                throw new Exception("Not enough of item to destory");
+
+            if (count < item.Count)
+            {
+                (item as BaseItem).SetCount(item.Count - count);
+                return true;
+            }
+            else if (count == item.Count)
+            {
+                (inventory as BaseInventory).RemoveItemInstance(item);
+                _items.Remove(item.Id);
+                return true;
+            }
+
+            return false;
+
         }
 
         private void TransferBetweenInstances(IItemInstance toItem, IItemInstance fromItem, int count)
@@ -188,19 +229,35 @@ namespace Village.Core.Items.Internal
 
         public bool CanAllItemBeConsumedFromInventory(string id, IInventory inventory)
         {
-            throw new NotImplementedException();
+            return CanItemBeConsumedFromInventory(id, inventory, -1);
         }
 
         public bool CanItemBeConsumedFromInventory(string id, IInventory inventory, int count)
         {
-            throw new NotImplementedException();
+            var item = inventory.FindItem(id);
+            if (item == null)
+                throw new Exception($"Inventory '{inventory.InventoryId}' does not hold item '{id}'.");
+
+            if (count > 0 && item.Count >= count)
+                return true;
+            else if (count == -1)
+                return true;
+            else
+                return false;
+        }
+
+        public void ConstumeItemsFromInventory(string itemId, IInventory inventory, int count)
+        {
+            if (!CanItemBeConsumedFromInventory(itemId, inventory, count))
+                throw new Exception("Items can not be consumed.");
+
         }
 
         public IEnumerable<IItemInstance> FindAllItemsNeedHauling()
         {
             foreach(var inv in _inventories.Values)
             {
-                var needsHaul = inv.GetItemsNeedHauling();
+                var needsHaul = inv.FindItemsNeedHauling();
                 if (needsHaul != null)
                     foreach (var item in needsHaul)
                         yield return item;
@@ -210,9 +267,48 @@ namespace Village.Core.Items.Internal
 
         public IEnumerable<IInventory> FindHaulDestinationForItem(IItemInstance item)
         {
-            foreach (var inventory in _inventories.Values)
+            //TODO: Item filters and priority
+            foreach (var inventory in _inventories.Values.OrderBy(x => x.Config.Priority))
                 if (inventory.CanAcceptItem(item))
                     yield return inventory;
+        }
+
+        public IItemFilter GetItemFilter(string filterId)
+        {
+            if (!_filters.ContainsKey(filterId))
+                throw new Exception($"Filter '{filterId}' not registered with ItemController.");
+            return _filters[filterId];
+        }
+
+        public string CreateFilterFromConfig(ItemFilterConfig config)
+        {
+            foreach (var filter in _filters)
+                if (CompairFilters(filter.Value.FilterConfig, config))
+                    return filter.Key;
+
+            var newFilter = new BaseItemFilter(config);
+            _filters.Add(newFilter.FilterId, newFilter);
+            return newFilter.FilterId;
+        }
+
+        private bool CompairFilters(ItemFilterConfig a, ItemFilterConfig b)
+        {
+            if (a.WhiteList != b.WhiteList)
+                return false;
+
+            if (a.Taxonomies != null && b.Taxonomies != null)
+                if (a.Taxonomies.Count == a.Taxonomies.Count)
+                    foreach (var aTax in a.Taxonomies)
+                        if (!b.Taxonomies.Contains(aTax))
+                            return false;
+
+            if (a.ItemDefNames != null && b.ItemDefNames != null)
+                if (a.ItemDefNames.Count == a.ItemDefNames.Count)
+                    foreach (var aName in a.ItemDefNames)
+                        if (!b.ItemDefNames.Contains(aName))
+                            return false;
+
+            return true;
         }
     }
 }

@@ -36,8 +36,8 @@ namespace Village.Core
         {
             if (def == null)
                 throw new ArgumentNullException(nameof(def));
-            try
-            {
+            //try
+            //{
                 if (def.InstClassName == null)
                     throw new Exception("InstClassName is not defined");
 
@@ -50,6 +50,9 @@ namespace Village.Core
 
 
                 var constructors = type.GetConstructors().ToList();
+                if(!(constructors?.Any() ?? false))
+                    throw new Exception($"Failed to find constructor for class '{def.InstClassName}'.");
+
                 if (constructors.Count() > 1)
                     throw new Exception($"InstClass '{def.InstClassName}' has more than one constructor. All Instance classes must have only one contructor.");
 
@@ -73,11 +76,11 @@ namespace Village.Core
                 var inst = (T)Activator.CreateInstance(type, args: tempParms);
 
                 return inst;
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Failed to create instance of def named '{def.DefName}'", e);
-            }
+            //}
+            //catch(Exception e)
+            //{
+            //    throw new Exception($"Failed to create instance of def named '{def.DefName}'", e);
+            //}
         }
 
         public static Dictionary<string, T> LoadDefCatalog<T>(string resourceName) where T : Def

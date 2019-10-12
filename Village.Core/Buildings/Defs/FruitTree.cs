@@ -22,9 +22,9 @@ namespace Village.Core.Buildings.Defs
         public FruitTree( BuildingDef def, string layerName, MapSpot anchor, IMapController controller, MapRotation rotation) : base(def, layerName, anchor, controller, rotation)
         {
             _stageLengths = new List<Dictionary<string, int>>();
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 24 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
 
             var outputConfif = new InventoryConfig()
             {
@@ -38,7 +38,7 @@ namespace Village.Core.Buildings.Defs
             var timeKeeper = GameMaster.Instance.GetController<ITimeKeeper>();
             _timeKeeper = timeKeeper;
             _finishDate = timeKeeper.ProjectTime(_stageLengths[0]);
-            _outputInventory = new BaseInventory(GameMaster.Instance.GetController<IItemController>(), this, outputConfif);
+            _outputInventory = new DefaultInventory(GameMaster.Instance.GetController<IItemController>(), this, outputConfif);
         }
         
         IInventory IInventoryUser.AllInventories => throw new NotImplementedException();
@@ -69,10 +69,10 @@ namespace Village.Core.Buildings.Defs
                 ProduceApple();
                 _growthStage = 4;
             }
-            if(_growthStage == 4 && _outputInventory.IsEmpty)
+            if (_growthStage == 4 && _outputInventory.IsEmpty)
             {
                 _growthStage = 2;
-                _finishDate = _timeKeeper.ProjectTime(_stageLengths[_growthStage]);
+                _finishDate = _timeKeeper.ProjectTime(new Dictionary<string, int> { { "DAY", 10 } });
             }
         }
 

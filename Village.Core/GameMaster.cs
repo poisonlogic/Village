@@ -37,7 +37,8 @@ namespace Village.Core
             inited = true;
             GetController<IBuildingController>().TryAddBuilding(new MapSpot(0, 0), "APPLE_TREE");
             GetController<IBuildingController>().TryAddBuilding(new MapSpot(3, 0), "STORAGE_CHEST");
-            GetController<IBuildingController>().TryAddBuilding(new MapSpot(-3, 0), "STORAGE_CHEST");
+            //GetController<IBuildingController>().TryAddBuilding(new MapSpot(-3, 0), "STORAGE_CHEST");
+            GetController<IBuildingController>().TryAddBuilding(new MapSpot(0, 3), "STOVE");
         }
 
         public void Update()
@@ -52,9 +53,7 @@ namespace Village.Core
 
             foreach(var inv in GetController<IItemController>().AllInventories)
             {
-                _logger.LogError(inv.GetInventoryUser().Label + ": ");
-                foreach (var item in inv.GetAllHeldItems())
-                    _logger.LogError("\t" + item.Label);
+                _logger.LogError(inv.InventoryUser.Label + " - " + inv.Config.Label + ": " + string.Join(", ", inv.GetAllHeldItems()?.Select(x => x.Label)));
             }
 
             DoHaulTest();
@@ -68,7 +67,8 @@ namespace Village.Core
 
             foreach (var item in items)
             {
-                foreach( var inv in GetController<IItemController>().FindHaulDestinationForItem(item))
+                var invs = GetController<IItemController>().FindHaulDestinationForItem(item).OrderBy(x => x.Config.Priority);
+                foreach ( var inv in invs)
                 {
                     if(GetController<IItemController>().TryTransferItemToInventory(item, item.InInventoryOf(), inv))
                         break;

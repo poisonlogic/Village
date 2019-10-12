@@ -24,7 +24,7 @@ namespace Village.ConsoleApp
             {
                 Console.Clear();
                 gameMaster.Update();
-                Thread.Sleep(100);
+                Thread.Sleep(150);
             }
 
             Console.WriteLine("Done");

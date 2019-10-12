@@ -6,7 +6,18 @@
         "Label": "Apple",
         "IsDistnct":false,
         "StackLimit":10,
-        "Taxonomy":"Food/Fruit",
+        "Taxonomy":"Food/Raw/Fruit",
+        "BaseValue":1,
+        "BaseMass":1
+    },
+    {
+        "DefName":"COOKED_APPLE",
+        "DefClassName":"Village.Core.Items.ItemDef",
+        "InstClassName":"Village.Core.Items.DefaultItem",
+        "Label": "Cooked Apple",
+        "IsDistnct":false,
+        "StackLimit":10,
+        "Taxonomy":"Food/Cooked/Fruit",
         "BaseValue":1,
         "BaseMass":1
     }

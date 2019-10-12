@@ -20,7 +20,7 @@ namespace Village.Core.Buildings.Defs
         {
             StorageContainerDef = def ?? throw new ArgumentNullException(nameof(def));
             ItemController = GameMaster.Instance.GetController<IItemController>();
-            Inventory = new BaseInventory(ItemController, this, def.InventoryConfig);
+            Inventory = new DefaultInventory(ItemController, this, def.InventoryConfig);
         }
 
         public override void Update()

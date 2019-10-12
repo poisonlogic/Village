@@ -36,8 +36,57 @@
                 "CanProvideItems": true,
                 "RespectsStackLimit": false,
                 "HasMassLimit": true,
-                "MaxMass": 2
+                "MaxMass": 2,
+                "Priority": 1
             }
+        },
+        {
+            "DefClassName":"Village.Core.Buildings.Industrial.ManufacturingBuildingDef",
+            "InstClassName":"Village.Core.Buildings.Industrial.DefaultManufacturingBuilding",
+            "DefName": "STOVE",
+            "Label": "Stove",
+            "FillMapSpots": true,
+            "FootPrint":[[0,0], [1,0]],
+            "Width": 2,
+            "Height": 1,
+            "OutputConfig":
+            {
+                "Label": "Output",
+                "CanReceiveItems": false,
+                "CanProvideItems": true,
+                "RespectsStackLimit": false,
+                "HasMassLimit": false,
+                "MaxMass": 2,
+                "Priority": 0
+            },
+            "InputConfig":
+            {
+                "Label": "Input",
+                "CanReceiveItems": true,
+                "CanProvideItems": false,
+                "RespectsStackLimit": false,
+                "HasMassLimit": true,
+                "MaxMass": 2,
+                "Priority": 0,
+                "ItemFilterConfig": 
+                {
+                    "WhiteList": true,
+                    "ItemDefNames": ["APPLE"]
+                }
+            },
+            "CraftingDefs":
+            [
+                {
+                    "InputTaxonomy": {
+                        "Food/Fruit":1
+                    },
+                    "OutputItemDefName": "COOKED_APPLE",
+                    "OutputHasQuality": false,
+                    "OutputCount": 1,
+                    "TotalWork": 100,
+                    "BaseWorkPerTick": 5
+                }
+            ]
         }
         
 ]

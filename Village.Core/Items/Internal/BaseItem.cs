@@ -66,10 +66,10 @@ namespace Village.Core.Items.Internal
 
         public virtual bool IsSame(IItemInstance item)
         {
-            if(!item.ItemDef.DefName.Equals(item.ItemDef.DefName))
+            if(!item.ItemDef.DefName.Equals(this.ItemDef.DefName))
                 return false;
 
-            if (!item.ItemDef.DefClassName.Equals(item.ItemDef.DefClassName))
+            if (!item.ItemDef.DefClassName.Equals(this.ItemDef.DefClassName))
                 return false;
 
             if (!_def.IsDistnct)

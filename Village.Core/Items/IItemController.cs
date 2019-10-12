@@ -39,6 +39,9 @@ namespace Village.Core.Items
         IItemInstance CreateNewItem(ItemDef itemDef, IInventory inventory);
         IItemInstance CreateNewItems(ItemDef itemDef, IInventory inventory, int count);
         IItemInstance CreateNewInstanceLike(IItemInstance item, IInventory inventory, int count);
+        //bool TryDestoryItem(string id, IInventory inventory);
+        bool TryDestoryItems(string id, IInventory inventory, int count);
+        //bool TryDestoryItemsOfDef(string id, IInventory inventory, int count);
         void DeleteItem(string id);
 
         bool CanTransferItemToInventory(IItemInstance item, IInventory oldInventory, IInventory newInventory);
@@ -46,11 +49,9 @@ namespace Village.Core.Items
         bool TryTransferItemToInventory(IItemInstance item, IInventory oldInventory, IInventory newInventory);
         bool TryTransferItemsToInventory(IItemInstance item, IInventory oldInventory, IInventory newInventory, int count);
 
-        // Consumed means that item or number of items will be destoryed
-        bool CanAllItemBeConsumedFromInventory(string id, IInventory inventory);
-        bool CanItemBeConsumedFromInventory(string id, IInventory inventory, int count);
-
         IEnumerable<IItemInstance> FindAllItemsNeedHauling();
         IEnumerable<IInventory> FindHaulDestinationForItem(IItemInstance item);
+        IItemFilter GetItemFilter(string filterId);
+        string CreateFilterFromConfig(ItemFilterConfig config);
     }
 }

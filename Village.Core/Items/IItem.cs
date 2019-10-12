@@ -18,6 +18,5 @@ namespace Village.Core.Items
         object GetProperty(string propertyName);
         T GetProperty<T>(string propertyName);
         bool IsSame(IItemInstance item);
-        void DestorySelf();
     }
 }
