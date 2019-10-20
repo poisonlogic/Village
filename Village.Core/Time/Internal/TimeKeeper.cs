@@ -14,6 +14,7 @@ namespace Village.Core.Time.Internal
         private BaseTime _time;
 
         public ITime Time => _time as ITime;
+        public string QuickTime => _time.QuickValues;
 
         public TimeKeeper()
         {

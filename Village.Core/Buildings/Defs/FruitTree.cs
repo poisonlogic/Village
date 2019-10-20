@@ -22,9 +22,9 @@ namespace Village.Core.Buildings.Defs
         public FruitTree( BuildingDef def, string layerName, MapSpot anchor, IMapController controller, MapRotation rotation) : base(def, layerName, anchor, controller, rotation)
         {
             _stageLengths = new List<Dictionary<string, int>>();
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
-            _stageLengths.Add(new Dictionary<string, int> { { "DAY", 1 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "HOUR", 1 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "HOUR", 1 } });
+            _stageLengths.Add(new Dictionary<string, int> { { "HOUR", 1 } });
 
             var outputConfif = new InventoryConfig()
             {
@@ -43,17 +43,13 @@ namespace Village.Core.Buildings.Defs
         
         IInventory IInventoryUser.AllInventories => throw new NotImplementedException();
 
-        public override ISprite GetSprite()
+        public override string GetSprite()
         {
-            if (_growthStage < 1)
-                return new FakeSprite { Text = ". ", BackColor = ConsoleColor.Green, MainColor = ConsoleColor.Black } as ISprite;
-            if (_growthStage < 2)
-                return new FakeSprite { Text = "i ", BackColor = ConsoleColor.Green, MainColor = ConsoleColor.Black } as ISprite;
+            if (_outputInventory.GetAllHeldItems().Any())
+                return BuildingDef.DefName + "Tree2";
 
-            if(_outputInventory.GetAllHeldItems().Any())
-                return new FakeSprite { Text = "Yo", BackColor = ConsoleColor.Green, MainColor = ConsoleColor.Red } as ISprite;
+            return BuildingDef.DefName + "Tree";
             
-            return new FakeSprite { Text = "Y ", BackColor = ConsoleColor.Green, MainColor = ConsoleColor.Red } as ISprite;
         }
 
         public override void Update()
@@ -72,7 +68,7 @@ namespace Village.Core.Buildings.Defs
             if (_growthStage == 4 && _outputInventory.IsEmpty)
             {
                 _growthStage = 2;
-                _finishDate = _timeKeeper.ProjectTime(new Dictionary<string, int> { { "DAY", 10 } });
+                _finishDate = _timeKeeper.ProjectTime(new Dictionary<string, int> { { "HOUR", 10 } });
             }
         }
 

@@ -6,6 +6,7 @@ namespace Village.Core.Time
 {
     public interface ITimeKeeper : IController
     {
+        string QuickTime { get; }
         void Tick();
         string Print(string format);
         ITime Time { get; }

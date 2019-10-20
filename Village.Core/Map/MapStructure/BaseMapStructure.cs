@@ -50,6 +50,6 @@ namespace Village.Core.Map.MapStructure
             return rotated;
         }
 
-        public abstract ISprite GetSprite();
+        public abstract string GetSprite();
     }
 }

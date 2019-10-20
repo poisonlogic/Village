@@ -7,6 +7,7 @@ namespace Village.Core.Buildings
 {
     public interface IBuildingController : IController
     {
+        IEnumerable<BuildingDef> AllDefs { get; }
         List<IBuilding> AllBuildings { get; }
         bool LoadBuildings();
         bool TryAddBuilding(MapSpot spot, string defName);

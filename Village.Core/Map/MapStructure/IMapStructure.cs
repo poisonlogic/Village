@@ -17,6 +17,6 @@ namespace Village.Core.Map.MapStructure
         IEnumerable<MapStructSide> GetOccupiedSides(MapSpot spot);
         IMapController MapController { get; }
 
-        ISprite GetSprite();
+        string GetSprite();
     }
 }

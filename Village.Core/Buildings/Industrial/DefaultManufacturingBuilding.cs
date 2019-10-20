@@ -19,20 +19,21 @@ namespace Village.Core.Buildings.Industrial
         {
         }
 
-        public override ISprite GetSprite()
+        public override string GetSprite()
         {
-            var temptext = "MMMM";
-            if (PercentComplete > 0)
-                temptext = PercentComplete.ToString("0.00");
+            return null;
+            //var temptext = "MMMM";
+            //if (PercentComplete > 0)
+            //    temptext = PercentComplete.ToString("0.00");
 
-            _spriteFlip = !_spriteFlip;
+            //_spriteFlip = !_spriteFlip;
 
-            return new FakeSprite
-            {
-                BackColor = ConsoleColor.Black,
-                MainColor = ConsoleColor.White,
-                Text = _spriteFlip ? temptext.Substring(0, 2) : temptext.Substring(2, 2)
-            };
+            //return new FakeSprite
+            //{
+            //    BackColor = ConsoleColor.Black,
+            //    MainColor = ConsoleColor.White,
+            //    Text = _spriteFlip ? temptext.Substring(0, 2) : temptext.Substring(2, 2)
+            //};
         }
 
         public override void Update()

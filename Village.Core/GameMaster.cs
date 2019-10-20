@@ -13,12 +13,17 @@ namespace Village.Core
     public class GameMaster
     {
         public static GameMaster Instance;
+        public static long MillsPerTick = 0;
+
+        private Dictionary<string, int> HaulTime;
 
         private bool inited;
         private IFileHandler _fileHandler;
-        private ILogger _logger;
+        public ILogger _logger;
         private List<IController> _controllers;
         private ITimeKeeper _timeKeeper;
+
+        public ITimeKeeper TimeKeeper => _timeKeeper;
 
         public GameMaster(IFileHandler fileHandler, ILogger logger, IEnumerable<IController> controllers)
         {
@@ -30,6 +35,7 @@ namespace Village.Core
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _controllers = controllers?.ToList() ?? throw new ArgumentNullException(nameof(controllers));
             _timeKeeper = GetController<ITimeKeeper>();
+            HaulTime = _timeKeeper.ProjectTime(new Dictionary<string, int> { { "HOUR", 1 } });
         }
 
         public void Init()
@@ -47,16 +53,17 @@ namespace Village.Core
                 Init();
             _timeKeeper.Tick();
             GetController<IBuildingController>().Update();
-            _logger.LogError(_timeKeeper.Print("[HOUR]:[MIN]:[SEC] [WEEK] the [DAY]th, [SEAS], [YEAR]"));
-            var map = GetController<IMapController>();
-            map.Renderer.DrawMap(map);
 
             foreach(var inv in GetController<IItemController>().AllInventories)
             {
                 _logger.LogError(inv.InventoryUser.Label + " - " + inv.Config.Label + ": " + string.Join(", ", inv.GetAllHeldItems()?.Select(x => x.Label)));
             }
 
-            DoHaulTest();
+            if (_timeKeeper.IsItTime(HaulTime) > 0)
+            {
+                HaulTime = _timeKeeper.ProjectTime(new Dictionary<string, int> { { "HOUR", 1 }, { "MIN", 30 } });
+                DoHaulTest();
+            }
         }
 
         public void DoHaulTest()

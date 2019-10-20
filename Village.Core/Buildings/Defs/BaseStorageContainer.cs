@@ -27,22 +27,24 @@ namespace Village.Core.Buildings.Defs
         {
         }
 
-        public override ISprite GetSprite()
+        public override string GetSprite()
         {
-            if(Inventory.GetAllHeldItems().Any())
-                return new FakeSprite()
-                {
-                    BackColor = ConsoleColor.White,
-                    MainColor = ConsoleColor.Red,
-                    Text = "[]"
-                };
+            return StorageContainerDef.DefName + StorageContainerDef.Sprites.First();
+            return null;
+            //if(Inventory.GetAllHeldItems().Any())
+            //    return new FakeSprite()
+            //    {
+            //        BackColor = ConsoleColor.White,
+            //        MainColor = ConsoleColor.Red,
+            //        Text = "[]"
+            //    };
 
-            return new FakeSprite()
-            {
-                BackColor = ConsoleColor.White,
-                MainColor = ConsoleColor.Blue,
-                Text = "{}"
-            };
+            //return new FakeSprite()
+            //{
+            //    BackColor = ConsoleColor.White,
+            //    MainColor = ConsoleColor.Blue,
+            //    Text = "{}"
+            //};
         }
     }
 }

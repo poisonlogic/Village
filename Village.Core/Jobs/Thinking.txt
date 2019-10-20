@@ -1,0 +1,11 @@
+﻿
+
+Jobs:
+	Hauling
+		Clean Up: Take any items on ground and put in place
+		Restock: Restock specific / any inventories
+	Crafting
+	Patrole
+	Farming: Collect when ready (Item idea farmers basket)
+	Sleep / eat
+

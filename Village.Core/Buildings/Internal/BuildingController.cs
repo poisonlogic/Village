@@ -7,11 +7,14 @@ namespace Village.Core.Buildings.Internal
 {
     internal class BuildingController : IBuildingController
     {
+        private Guid Id = Guid.NewGuid();
         private IMapController _mapController => GameMaster.Instance.GetController<IMapController>();
         private Dictionary<string, BuildingDef> _defs;
         private Dictionary<string, IBuilding> _buildings;
 
+
         public List<IBuilding> AllBuildings => throw new NotImplementedException();
+        public IEnumerable<BuildingDef> AllDefs => _defs.Values;
 
         public BuildingController()
         {

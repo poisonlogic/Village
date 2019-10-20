@@ -1,0 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Village.Core.Jobs
+{
+    public abstract class BaseActiveJob : IActiveJob
+    {
+    }
+}

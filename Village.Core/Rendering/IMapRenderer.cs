@@ -7,8 +7,8 @@ namespace Village.Core.Rendering
 {
     public interface IMapRenderer
     {
-        void DrawMap(IMapController controller);
-        void DrawLayer(IMapLayer layer);
+        void DrawMap(IMapController controller, object args);
+        void DrawLayer(IMapLayer layer, object args);
 
     }
 }

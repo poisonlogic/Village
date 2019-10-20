@@ -8,7 +8,11 @@
             "FillMapSpots": true,
             "GrowTime": 1000,
             "Width": 1,
-            "Height": 1
+            "Height": 1,
+            "Sprites":[
+                "Tree",
+                "Tree2"
+            ]
         },
         {
             "DefClassName":"Village.Core.Buildings.Defs.AppleTreeDef",
@@ -30,6 +34,10 @@
             "FootPrint":[[0,0]],
             "Width": 1,
             "Height": 1,
+            "Sprites":
+            [
+                "Chest"
+            ],
             "InventoryConfig":
             {
                 "CanReceiveItems": true,

@@ -9,6 +9,7 @@ namespace Village.Core.Map.Internal
 {
     internal class MapController : IMapController
     {
+        private Guid Id = Guid.NewGuid();
         private Dictionary<string, IMapStructure> _mapStructs;
         private Dictionary<string, IMapLayer> _layers;
 

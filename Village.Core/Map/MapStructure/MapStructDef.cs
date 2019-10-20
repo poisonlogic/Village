@@ -8,8 +8,10 @@ namespace Village.Core.Map.MapStructure
     {
         public int Width;
         public int Height;
+
         public bool FillMapSpots;
         public IEnumerable<int[]> Footprint;
         public Dictionary<Tuple<int, int>, List<MapStructSide>> OccupiesSides;
+        public List<string> Sprites;
     }
 }

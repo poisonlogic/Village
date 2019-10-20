@@ -14,5 +14,6 @@ namespace Village.Core.Time
         Dictionary<string, int> ProjectTime(Dictionary<string, int> values);
         int CompairTime(ITime time);
         void AddTime(Dictionary<string, int> add);
+        string QuickValues { get; }
     }
 }

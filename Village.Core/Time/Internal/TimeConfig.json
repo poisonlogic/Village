@@ -4,7 +4,7 @@
     {
       "UnitName": "SEC",
       "UnitLabel": "Second",
-      "ChildUnit": "MIN",
+      "ChildUnit": "Min",
       "SubscribeToUnit": "",
       "Intervals": [ 0 ],
       "IntervalLabels": [],
@@ -14,7 +14,7 @@
     {
       "UnitName": "MIN",
       "UnitLabel": "Minute",
-      "ChildUnit": "SEC",
+      "ChildUnit": "",
       "SubscribeToUnit": "",
       "Intervals": [ 60 ],
       "IntervalLabels": [],
@@ -34,7 +34,7 @@
     {
       "UnitName": "DAY",
       "UnitLabel": "Day",
-      "ChildUnit": "",
+      "ChildUnit": "HOUR",
       "SubscribeToUnit": "",
       "Intervals": [ 24 ],
       "IntervalLabels": [],

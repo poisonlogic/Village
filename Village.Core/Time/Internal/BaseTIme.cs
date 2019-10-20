@@ -14,6 +14,7 @@ namespace Village.Core.Time.Internal
         public long Ticks => 0;
         public string BaseUnit { get; }
         public Dictionary<string, int> Values => _values;
+        public string QuickValues => string.Join(":", _values.Select(x => x.Value.ToString()));
 
         public BaseTime(IEnumerable<TimeUnitConfig> timeConfigs)
         {
